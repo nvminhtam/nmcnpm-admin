@@ -22,10 +22,8 @@ function initModels(sequelize) {
   var seat_class = _seat_class(sequelize, DataTypes);
   var traveler_details = _traveler_details(sequelize, DataTypes);
 
-  customer.belongsToMany(flight, { as: 'flight_id_flights', through: bill, foreignKey: "customer_id", otherKey: "flight_id" });
-  flight.belongsToMany(customer, { as: 'customer_id_customers', through: bill, foreignKey: "flight_id", otherKey: "customer_id" });
   flight.belongsToMany(seat_class, { as: 'seat_class_id_seat_classes', through: flight_has_seat_class, foreignKey: "flight_id", otherKey: "seat_class_id" });
-  seat_class.belongsToMany(flight, { as: 'flight_id_flight_flight_has_seat_classes', through: flight_has_seat_class, foreignKey: "seat_class_id", otherKey: "flight_id" });
+  seat_class.belongsToMany(flight, { as: 'flight_id_flights', through: flight_has_seat_class, foreignKey: "seat_class_id", otherKey: "flight_id" });
   extend_flight.belongsTo(airport, { as: "departure_airport", foreignKey: "departure_airport_id"});
   airport.hasMany(extend_flight, { as: "extend_flights", foreignKey: "departure_airport_id"});
   extend_flight.belongsTo(airport, { as: "arrival_airport", foreignKey: "arrival_airport_id"});
