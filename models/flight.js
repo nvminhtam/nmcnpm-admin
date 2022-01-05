@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    arrivalTime: {
+    arrival_time: {
       type: DataTypes.DATE,
       allowNull: false
     },
