@@ -10,6 +10,7 @@ const hbs = require('hbs');
 const indexRouter = require('./components/dashboard');
 const userRouter = require('./components/user');
 const adminRouter = require('./components/ad');
+const airportRouter = require('./components/airport');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -34,6 +35,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', userRouter);
 app.use('/admins', adminRouter);
+app.use('/airports', airportRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

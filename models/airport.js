@@ -7,13 +7,22 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    symbol_code: {
+    airport_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    province: {
       type: DataTypes.STRING(45),
       allowNull: false
     },
     city: {
       type: DataTypes.STRING(45),
       allowNull: false
+    },
+    symbol_code: {
+      type: DataTypes.STRING(5),
+      allowNull: false,
+      unique: "symbol_code_UNIQUE"
     }
   }, {
     sequelize,
@@ -34,6 +43,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "symbol_code_UNIQUE",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "symbol_code" },
         ]
       },
     ]
