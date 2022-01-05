@@ -98,12 +98,16 @@ const listConfig = {
 };
 
 module.exports = {
-    list: (page = 0, itemsPerPage = 5) => models.flight.findAndCountAll({
-        ...listConfig,
+    flightList: (page = 0, itemsPerPage = 5) => models.flight.findAll({
         raw: true,
         offset: itemsPerPage * page,
         limit: itemsPerPage
     }),
-
+    airportList: (id) => models.airport.findAll({
+        raw: true,
+        where: {
+            id: id
+        }
+    })
 
 }

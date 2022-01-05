@@ -72,19 +72,24 @@
                     <table class="table mb-0 table-striped">
                         <thead>
                             <tr>
-                                <th style="width: 20%;">Departure Airport</th>
-                                <th style="width: 20%;">Arrival Airport</th>
+                                <th style="width: 5%;">ID</th>
+                                <th style="width: 15%;">Departure Airport</th>
+                                <th style="width: 15%;">Arrival Airport</th>
                                 <th style="width: 20%;">Departure Time</th>
                                 <th style="width: 20%;">Arrival Time</th>
-                                <th style="width: 20%;">Status</th>
+                                <th style="width: 10%;">Status</th>
                                 <th class="text-center" style="width: 10%;"></th>
                             </tr>
                         </thead>
                         <tbody class="list">
                             {{#each flights}}
                             <tr>
+                                <td>{{id}}</td>
                                 <td>{{departure_airport}}</td>
-                                <td>{{airline_name}}</td>
+                                <td>{{arrival_airport}}</td>
+                                <td>{{#dateTime departure_time}}{{/dateTime}}</td>
+                                <td>{{#dateTime arrival_time}}{{/dateTime}}</td>
+                                <td>{{status}}</td>
                                 <td class="text-center">
                                     <a href="/planes/updateplane/{{id}}" class="btn btn-sm btn-primary">EDIT</td>
                             </tr>
