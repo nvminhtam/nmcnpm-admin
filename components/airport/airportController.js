@@ -32,7 +32,7 @@ module.exports = {
     },
     addAirportPage: async(req, res) => {
         try {
-            res.render('airport/addairport', { title: 'Add Airport', scripts: ['airport.js'] });
+            res.render('airport/addAirport', { title: 'Add Airport', scripts: ['airport.js'] });
         } catch (err) {
             console.log(err.message);
         }
@@ -50,7 +50,7 @@ module.exports = {
         try {
             const id = req.params.airportId;
             const airport = await airportService.findAirportById(id);
-            res.render('airport/updateairport', { title: 'Update Airport', airport, scripts: ['airport.js'] });
+            res.render('airport/updateAirport', { title: 'Update Airport', airport, scripts: ['airport.js'] });
         } catch (err) {
             console.log(err.message);
         }

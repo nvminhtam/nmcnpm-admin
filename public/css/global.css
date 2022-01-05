@@ -408,9 +408,8 @@ table thead a {
     background-color: transparent;
 }
 
-
-/* @media screen and (min-width: 768px) {
-    .airport-container {
-        width: 65%;
+@media screen and (min-width: 768px) {
+    .seatclass-container {
+        width: 50%;
     }
-} */
+}

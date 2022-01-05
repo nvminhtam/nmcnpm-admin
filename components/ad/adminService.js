@@ -11,31 +11,27 @@ module.exports = {
     }),
     search: (keyword, page = 0, itemsPerPage = 5) => models.admin.findAndCountAll({
         where: {
-            [Op.or]: [
-                sequelize.where(sequelize.fn('concat', sequelize.col('last_name'), ' ', sequelize.col('first_name')), {
+            [Op.or]: [{
+                last_name: {
                     [Op.like]: `%${keyword}%`
-                }), {
-                    last_name: {
-                        [Op.like]: `%${keyword}%`
-                    }
-                }, {
-                    first_name: {
-                        [Op.like]: `%${keyword}%`
-                    }
-                }, {
-                    username: {
-                        [Op.like]: `%${keyword}%`
-                    }
-                }, {
-                    email: {
-                        [Op.like]: `%${keyword}%`
-                    }
-                }, {
-                    telephone: {
-                        [Op.like]: `%${keyword}%`
-                    }
                 }
-            ]
+            }, {
+                first_name: {
+                    [Op.like]: `%${keyword}%`
+                }
+            }, {
+                username: {
+                    [Op.like]: `%${keyword}%`
+                }
+            }, {
+                email: {
+                    [Op.like]: `%${keyword}%`
+                }
+            }, {
+                telephone: {
+                    [Op.like]: `%${keyword}%`
+                }
+            }]
         },
         offset: itemsPerPage * page,
         limit: itemsPerPage,
