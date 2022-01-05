@@ -70,27 +70,22 @@ const listConfig = {
             ]
         },
         {
-            model: models.seat_class,
-            as: 'seat_class_id_seat_classes',
+            model: models.flight_has_seat_class,
+            as: 'flight_has_seat_classes',
             attributes: [
-                'id',
-                'name',
+                'flight_id',
+                'seat_class_id',
+                'price',
+                'seat_count'
             ],
             duplicating: false,
             required: true,
-            through: {
-                attributes: [],
-                duplicating: false,
-                required: true,
-            },
-            include: [{
-                model: models.flight_has_seat_class,
-                as: 'flight_has_seat_classes',
+            required: [{
+                model: models.seat_class,
+                as: 'seat_class',
                 attributes: [
-                    'flight_id',
-                    'seat_class_id',
-                    'price',
-                    'seat_count'
+                    'id',
+                    'name',
                 ],
                 duplicating: false,
                 required: true,
