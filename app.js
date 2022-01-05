@@ -12,6 +12,7 @@ const userRouter = require('./components/user');
 const adminRouter = require('./components/ad');
 const airportRouter = require('./components/airport');
 const seatClassController = require('./components/seatClass');
+const planeController = require('./components/plane');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -38,6 +39,7 @@ app.use('/users', userRouter);
 app.use('/admins', adminRouter);
 app.use('/airports', airportRouter);
 app.use('/seat-classes', seatClassController);
+app.use('/planes', planeController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
