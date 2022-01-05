@@ -5,6 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const hbs = require('hbs');
+const passport = require('./auth/passport');
+const { checkAuthentication } = require('./auth/auth');
+const session = require("express-session");
+const flash = require('connect-flash');
 
 // router
 const indexRouter = require('./components/dashboard');
@@ -13,6 +17,8 @@ const adminRouter = require('./components/ad');
 const airportRouter = require('./components/airport');
 const seatClassController = require('./components/seatClass');
 const planeController = require('./components/plane');
+const authRouter = require('./components/auth');
+const profileRouter = require('./components/profile');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -33,14 +39,34 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// use routes
-app.use('/', indexRouter);
-app.use('/users', userRouter);
-app.use('/admins', adminRouter);
-app.use('/airports', airportRouter);
-app.use('/seat-classes', seatClassController);
-app.use('/planes', planeController);
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 10,
+    }
+}));
 
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Get user from req
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+})
+
+// use routes
+app.use('/auth', authRouter);
+app.use('/', indexRouter);
+app.use('/users', checkAuthentication, userRouter);
+app.use('/admins', checkAuthentication, adminRouter);
+app.use('/airports', checkAuthentication, airportRouter);
+app.use('/seat-classes', checkAuthentication, seatClassController);
+app.use('/planes', checkAuthentication, planeController);
+app.use('/profile', checkAuthentication, profileRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
