@@ -28,6 +28,8 @@ const listConfig = {
                 'departure_time',
                 'arrival_time',
             ],
+            duplicating: false,
+            required: true,
             include: [{
                     model: models.airport,
                     as: 'departure_airport',
@@ -38,6 +40,7 @@ const listConfig = {
                         'province',
                         'city',
                     ],
+                    duplicating: false,
                     required: true,
                 },
                 {
@@ -50,6 +53,7 @@ const listConfig = {
                         'province',
                         'city',
                     ],
+                    duplicating: false,
                     required: true,
                 },
                 {
@@ -60,71 +64,43 @@ const listConfig = {
                         'airline_name',
                         'aircraft_number',
                     ],
+                    duplicating: false,
                     required: true,
                 }
             ]
         },
-        // {
-        //     model: models.flight_has_seat_class,
-        //     as: 'flight_has_seat_classes',
-        //     attributes: [
-        //         'flight_id',
-        //         'seat_class_id',
-        //         'price',
-        //         'seat_count'
-        //     ],
-        //     // include: [{
-        //     //     model: models.seat_class,
-        //     //     as: 'seat_class',
-        //     //     attributes: [
-        //     //         'id',
-        //     //         'name',
-        //     //     ],
-        //     //     duplicating: false,
-        //     //     required: true,
-        //     // }],
-        //     required: true
-        // },
-        // {
-        //     model: models.seat_class,
-        //     as: 'seat_class_id_seat_classes',
-        //     attributes: [
-        //         'id',
-        //         'name',
-        //     ],
-        //     duplicating: false,
-        //     required: true,
-        //     through: {
-        //         model: models.flight_has_seat_class,
-        //         attributes: [
-        //             'flight_id',
-        //             'seat_class_id',
-        //             'price',
-        //             'seat_count'
-        //         ],
-        //     }
-        // }
+        {
+            model: models.seat_class,
+            as: 'seat_class_id_seat_classes',
+            attributes: [
+                'id',
+                'name',
+            ],
+            duplicating: false,
+            required: true,
+            through: {
+                attributes: [],
+                duplicating: false,
+                required: true,
+            },
+            include: [{
+                model: models.flight_has_seat_class,
+                as: 'flight_has_seat_classes',
+                attributes: [
+                    'flight_id',
+                    'seat_class_id',
+                    'price',
+                    'seat_count'
+                ],
+                duplicating: false,
+                required: true,
+            }]
+        }
+    ],
+    order: [
+        ['id', 'ASC']
     ]
 };
-const test = {
-    attributes: [
-        'flight_id',
-        'seat_class_id',
-        'price',
-        'seat_count'
-    ],
-    include: [{
-        model: models.seat_class,
-        as: 'seat_class',
-        attributes: [
-            'id',
-            'name',
-        ],
-        duplicating: false,
-        required: true,
-    }],
-    required: true
-}
 
 module.exports = {
     list: (page = 0, itemsPerPage = 5) => models.flight.findAndCountAll({
@@ -133,5 +109,6 @@ module.exports = {
         offset: itemsPerPage * page,
         limit: itemsPerPage
     }),
+
 
 }
