@@ -11,6 +11,7 @@ const indexRouter = require('./components/dashboard');
 const userRouter = require('./components/user');
 const adminRouter = require('./components/ad');
 const airportRouter = require('./components/airport');
+const seatClassController = require('./components/seatClass');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -36,6 +37,7 @@ app.use('/', indexRouter);
 app.use('/users', userRouter);
 app.use('/admins', adminRouter);
 app.use('/airports', airportRouter);
+app.use('/seat-classes', seatClassController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
