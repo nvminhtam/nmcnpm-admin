@@ -13,16 +13,16 @@ module.exports = function(sequelize, DataTypes) {
       unique: "username_UNIQUE"
     },
     password: {
-      type: DataTypes.STRING(45),
+      type: DataTypes.STRING(255),
       allowNull: false
-    },
-    first_name: {
-      type: DataTypes.STRING(45),
-      allowNull: true
     },
     last_name: {
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    first_name: {
+      type: DataTypes.STRING(45),
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING(45),
@@ -30,7 +30,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     telephone: {
       type: DataTypes.STRING(11),
-      allowNull: true,
+      allowNull: false,
       unique: "telephone_UNIQUE"
     }
   }, {
