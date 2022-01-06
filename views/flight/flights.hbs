@@ -83,7 +83,7 @@
                         </thead>
                         <tbody class="list">
                             {{#each flights}}
-                            <tr>
+                            <tr class='clickable-row' data-href='/flights/{{id}}'>
                                 <td>{{id}}</td>
                                 <td>{{departure_airport}}</td>
                                 <td>{{arrival_airport}}</td>

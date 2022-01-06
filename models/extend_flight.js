@@ -40,11 +40,11 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     departure_time: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false
     },
     arrival_time: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false
     }
   }, {

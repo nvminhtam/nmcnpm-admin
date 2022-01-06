@@ -18,6 +18,6 @@ router.get('/', flightController.list);
 // router.post('/updateadmin', flightController.updateAdminForm);
 
 
-// // get flight detail
-// router.get('/:adminId', flightController.detail);
+// get flight detail
+router.get('/:flightId', flightController.detail);
 module.exports = router;

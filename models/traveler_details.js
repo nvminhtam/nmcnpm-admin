@@ -55,7 +55,7 @@ module.exports = function(sequelize, DataTypes) {
         key: 'flight_id'
       }
     },
-    class_id: {
+    seat_class_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -96,7 +96,7 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "flight_id" },
-          { name: "class_id" },
+          { name: "seat_class_id" },
         ]
       },
     ]
