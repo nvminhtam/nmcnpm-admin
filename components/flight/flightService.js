@@ -137,6 +137,9 @@ module.exports = {
     }),
     airportList: () => models.airport.findAll({
         raw: true,
+    }),
+    planeList: () => models.plane.findAll({
+        raw: true,
     })
 
 }

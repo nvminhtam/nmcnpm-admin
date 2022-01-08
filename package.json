@@ -17,6 +17,7 @@
         "hbs": "~4.0.4",
         "http-errors": "~1.6.3",
         "js-datepicker": "^5.18.0",
+        "materialize-css": "^1.0.0-rc.2",
         "morgan": "~1.9.1",
         "mysql2": "^2.3.3",
         "passport": "^0.5.2",

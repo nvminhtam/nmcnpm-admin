@@ -62,8 +62,9 @@
         <div class="container">
             <div class="card p-2">
                 <form>
+                    <h4>Flight Segment Information:</h4>
                     <div class="row mx-auto">
-                        <div class="col-5">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="form-group">
                                     <label for="seatClass">Departure Airport</label>
@@ -77,18 +78,14 @@
                             <div class="row">
                                 <div class="form-group">
                                     <label for="seatClass">Departure Time</label>
-                                    <select class="form-control form-select" id="seatClass">
-                                        {{#each airportList}}
-                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                        {{/each}}
-                                    </select>
+                                    <input type="text" class="datepicker">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-5">
+                        <div class="col-4">
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="seatClass">Departure Airport</label>
+                                    <label for="seatClass">Arrival Airport</label>
                                     <select class="form-control form-select" id="seatClass">
                                         {{#each airportList}}
                                             <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
@@ -98,22 +95,34 @@
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="seatClass">Departure Time</label>
-                                    <select class="form-control form-select" id="seatClass">
-                                        {{#each airportList}}
-                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                        {{/each}}
-                                    </select>
+                                    <label for="seatClass">Arrival Time</label>
+                                    {{!-- <input type="text" class="datepicker"> --}}
+                                    <section class="container">
+  <h2 class="py-2">Datepicker in Bootstrap 5</h2>
+  <form class="row">
+    <label for="date" class="col-1 col-form-label">Date</label>
+    <div class="col-5">
+      <div class="input-group date" id="datepicker">
+        <input type="text" class="form-control" id="date"/>
+        <span class="input-group-append">
+          <span class="input-group-text bg-light d-block">
+            <i class="fa fa-calendar"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+  </form>
+</section>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2 d-flex align-items-center justify-content-center">
+                        <div class="col-4 d-flex align-items-center justify-content-center">
                             <div class="row">
                                 <div class="form-group">
                                     <label for="seatClass">Plane</label>
                                     <select class="form-control form-select" id="seatClass">
-                                        {{#each airportList}}
-                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                                        {{#each planeList}}
+                                            <option value={{id}}>{{aircraft_number}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -222,3 +231,13 @@
         </div>
     </div>
 </div>
+<style>label{
+margin-left: 20px;
+}
+#datepicker{
+width:180px; 
+margin: 0 20px 20px 20px;
+}
+#datepicker > span:hover{
+cursor: pointer;
+}</style>

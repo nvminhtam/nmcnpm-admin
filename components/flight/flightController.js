@@ -80,7 +80,9 @@ module.exports = {
         try {
             const seatClassList = await flightService.seatClassList();
             const airportList = await flightService.airportList();
-            res.render('flight/addFlight', { title: 'Add Flight', airportList, seatClassList, scripts: ['flight.js'] });
+            const planeList = await flightService.planeList();
+            const datepickerStyle = 1;
+            res.render('flight/addFlight', { title: 'Add Flight', datepickerStyle, planeList, airportList, seatClassList, scripts: ['flight.js'] });
         } catch (err) {
             console.log(err.message);
         }
