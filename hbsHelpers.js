@@ -12,9 +12,9 @@ const helpers = (hbs) => {
 // Order status
 hbs.registerHelper('checkStatus', status => {
     console.log(status)
-    if (status === 'Success') 
+    if (status === 'Paid') 
         return 'success';
-    else if (status === 'Delivering') 
+    else if (status === 'Reserved') 
         return 'warning';
     else if (status === 'Cancel') 
         return 'danger';
