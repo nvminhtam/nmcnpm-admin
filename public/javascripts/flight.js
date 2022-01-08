@@ -3,7 +3,11 @@ jQuery(document).ready(function($) {
         window.location = $(this).data("href");
     });
     // $('.datepicker').datepicker({ "format": 'dd-mm-yyyy' }).datepicker("setDate", new Date()).datepicker({ "autoClose": true });
-    $("#datepicker").datepicker({
+    $("#departureDatePicker").datepicker({
+        autoclose: true,
+        todayHighlight: true
+    }).datepicker('update', new Date());
+    $("#arrivalDatePicker").datepicker({
         autoclose: true,
         todayHighlight: true
     }).datepicker('update', new Date());
