@@ -1,0 +1,195 @@
+<div class="admin-section">
+    <div class="header-section">
+        <div class="container">
+            <nav class="navbar navbar-light navbar-expand-md p-0">
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav-section" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse" id="nav-section">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link px-3">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/users" class="nav-link px-3">Users</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="/flights" class="nav-link px-3">Flights</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/seat-classes" class="nav-link px-3">Seat Classes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/planes" class="nav-link px-3">Planes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/airports" class="nav-link px-3">Airports</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/bills" class="nav-link px-3">Bills</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admins" class="nav-link px-3">Admins</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="intro-section">
+        <div class="container">
+            <div class="d-flex align-items-center py-30">
+                <div class="flex-grow-1 flex-shrink-1">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 align-items-center">
+                            <li class="breadcrumb-item">
+                                <a href="/"><i class="bi bi-house-door-fill icon-1"></i></a>
+                            </li>
+                            <li class="breadcrumb-item text-uppercase active">
+                                Flights
+                            </li>
+                            <li class="breadcrumb-item text-uppercase active">
+                                {{title}}
+                            </li>
+                        </ol>
+                    </nav>
+                    <h1 class="m-0 fw-bold">{{title}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-section">
+        <div class="container">
+            <div class="card p-2">
+                <form>
+                    <h3 class="pb-2">Flight Segment Information:</h3>
+                    <div class="row mx-auto">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="departureAirport">Departure Airport</label>
+                                    <select class="form-control form-select" id="departureAirport">
+                                        {{#each airportList}}
+                                        <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                        <label for="departureTime">Departure Time</label>
+                                    <div class="input-group date" id="departureDatePicker">
+                                        <input type="text" class="form-control" id="departureTime" />
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="arrivalAirport">Arrival Airport</label>
+                                    <div class="col">
+                                        <select class="form-control form-select" id="arrivalAirport">
+                                            {{#each airportList}}
+                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                        <label for="arrivalTime">Arrival Time</label>
+                                    <div class="input-group date" id="arrivalDatePicker">
+                                        <input type="text" class="form-control" id="arrivalTime" />
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-auto">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="plane">Plane</label>
+                                <select class="form-control form-select" id="plane" disabled>
+                                    <option hidden></option>
+                                    {{#each planeList}}
+                                    <option value={{id}}>{{aircraft_number}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-auto d-flex align-items-center justify-content-center">
+                        <div class="col-4">
+                            <div class="form-group">
+                            <a href="javascript:void(0)" class="btn btn-info d-block" id="add-extend-flight-btn"
+                                onclick="addExtendFlight()">
+                                Add flight segment
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="pb-2 pt-2">Seat Class Information:</h3>
+                    <div class="row mx-auto">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="seatClass">Seat Class</label>
+                                <select class="form-control form-select" id="seatClass">
+                                    {{#each seatClassList}}
+                                    <option value={{id}}>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="totalCount">Total Count</label>
+                                <input id="totalCount" type="number" class="form-control" value="1" min="1" />
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="price">Price</label>
+                                <input id="price" type="number" class="form-control" value="100000" min="100000" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-auto d-flex align-items-center justify-content-center">
+                        <div class="col-4">
+                            <div class="form-group">
+                            <a href="javascript:void(0)" class="btn btn-info d-block" id="add-seat-class-btn"
+                                onclick="addExtendFlight()">
+                                Add seat class
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+    #datepicker>span:hover {
+        cursor: pointer;
+    }
+    .btn-info {
+        color: #fff;
+    }
+</style>

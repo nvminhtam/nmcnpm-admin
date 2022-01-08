@@ -413,3 +413,7 @@ table thead a {
         width: 50%;
     }
 }
+
+.clickable-row {
+    cursor: pointer;
+}

@@ -9,7 +9,6 @@ const passport = require('./auth/passport');
 const { checkAuthentication } = require('./auth/auth');
 const session = require("express-session");
 const flash = require('connect-flash');
-
 // router
 const indexRouter = require('./components/dashboard');
 const userRouter = require('./components/user');
@@ -19,6 +18,7 @@ const seatClassController = require('./components/seatClass');
 const planeController = require('./components/plane');
 const authRouter = require('./components/auth');
 const profileRouter = require('./components/profile');
+const flightRouter = require('./components/flight');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -67,6 +67,8 @@ app.use('/airports', checkAuthentication, airportRouter);
 app.use('/seat-classes', checkAuthentication, seatClassController);
 app.use('/planes', checkAuthentication, planeController);
 app.use('/profile', checkAuthentication, profileRouter);
+app.use('/flights', checkAuthentication, flightRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

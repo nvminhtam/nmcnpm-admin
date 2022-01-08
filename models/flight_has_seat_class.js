@@ -23,7 +23,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    seat_count: {
+    total_seat_count: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    booked_seat_count: {
       type: DataTypes.INTEGER,
       allowNull: false
     }

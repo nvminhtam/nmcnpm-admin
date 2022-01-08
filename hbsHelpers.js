@@ -4,7 +4,7 @@ const helpers = (hbs) => {
             new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(money));
 
         // Date formatter
-        hbs.registerHelper('dateTime', date => date.toLocaleString('en-US', { hour12: false }));
+        hbs.registerHelper('dateTime', date => date.toLocaleString('en-GB'));
 
         // Address formatter
         hbs.registerHelper('address', (specific_address, ward, district, city) => `${specific_address ? `${specific_address},` : ''} phường ${ward}, quận ${district}, ${city}`);
