@@ -70,7 +70,7 @@
                                     <label for="seatClass">Departure Airport</label>
                                     <select class="form-control form-select" id="seatClass">
                                         {{#each airportList}}
-                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                                        <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -86,33 +86,30 @@
                             <div class="row">
                                 <div class="form-group">
                                     <label for="seatClass">Arrival Airport</label>
-                                    <select class="form-control form-select" id="seatClass">
-                                        {{#each airportList}}
+                                    <div class="col">
+                                        <select class="form-control form-select" id="seatClass">
+                                            {{#each airportList}}
                                             <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                        {{/each}}
-                                    </select>
+                                            {{/each}}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group">
                                     <label for="seatClass">Arrival Time</label>
-                                    {{!-- <input type="text" class="datepicker"> --}}
-                                    <section class="container">
-  <h2 class="py-2">Datepicker in Bootstrap 5</h2>
-  <form class="row">
-    <label for="date" class="col-1 col-form-label">Date</label>
-    <div class="col-5">
-      <div class="input-group date" id="datepicker">
-        <input type="text" class="form-control" id="date"/>
-        <span class="input-group-append">
-          <span class="input-group-text bg-light d-block">
-            <i class="fa fa-calendar"></i>
-          </span>
-        </span>
-      </div>
-    </div>
-  </form>
-</section>
+
+                                    <div class="input-group date" id="datepicker">
+                                        <input type="text" class="form-control" id="date" />
+                                        <span class="input-group-append">
+                                            <span class="input-group-text bg-light d-block">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </span>
+
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -122,20 +119,21 @@
                                     <label for="seatClass">Plane</label>
                                     <select class="form-control form-select" id="seatClass">
                                         {{#each planeList}}
-                                            <option value={{id}}>{{aircraft_number}}</option>
+                                        <option value={{id}}>{{aircraft_number}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                <label>Add</label>
-                                <a href="javascript:void(0)" class="btn btn-primary d-block" id="add-product-btn" onclick="addSize()">
-                                    <i class="bi bi-plus"></i>
-                                </a>
+                                    <label>Add</label>
+                                    <a href="javascript:void(0)" class="btn btn-primary d-block" id="add-product-btn"
+                                        onclick="addSize()">
+                                        <i class="bi bi-plus"></i>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                            
+
                         </div>
                     </div>
                     <div style="width: 90%;" class="mx-auto">
@@ -175,7 +173,7 @@
                                 <label for="seatClass">Seat Class</label>
                                 <select class="form-control form-select" id="seatClass">
                                     {{#each seatClassList}}
-                                        <option value={{id}}>{{name}}</option>
+                                    <option value={{id}}>{{name}}</option>
                                     {{/each}}
                                 </select>
                             </div>
@@ -183,19 +181,20 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="totalCount">Total Count</label>
-                                <input id="totalCount" type="number" class="form-control" value="1" min="1"/>
+                                <input id="totalCount" type="number" class="form-control" value="1" min="1" />
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input id="price" type="number" class="form-control" value="100000" min="100000"/>
+                                <input id="price" type="number" class="form-control" value="100000" min="100000" />
                             </div>
                         </div>
                         <div class="col-1">
                             <div class="form-group">
                                 <label>Add</label>
-                                <a href="javascript:void(0)" class="btn btn-primary d-block" id="add-product-btn" onclick="addSize()">
+                                <a href="javascript:void(0)" class="btn btn-primary d-block" id="add-product-btn"
+                                    onclick="addSize()">
                                     <i class="bi bi-plus"></i>
                                 </a>
                             </div>
@@ -225,19 +224,23 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<style>label{
-margin-left: 20px;
-}
-#datepicker{
-width:180px; 
-margin: 0 20px 20px 20px;
-}
-#datepicker > span:hover{
-cursor: pointer;
-}</style>
+<style>
+    label {
+        margin-left: 20px;
+    }
+
+    #datepicker {
+        width: 180px;
+        margin: 0 20px 20px 20px;
+    }
+
+    #datepicker>span:hover {
+        cursor: pointer;
+    }
+</style>
