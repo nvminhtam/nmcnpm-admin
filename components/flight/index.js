@@ -9,9 +9,9 @@ router.get('/', flightController.list);
 // // get flights search
 // router.get('/search', flightController.search);
 
-// //get add flight page
-// router.get('/addadmin', flightController.addAdminPage);
-// router.post('/addadmin', flightController.addAdminForm);
+//get add flight page
+router.get('/addflight', flightController.addFlightPage);
+// router.post('/addflight', flightController.addFlightForm);
 
 // //get update flight page
 // router.get('/updateadmin/:adminId', flightController.updateAdminPage);

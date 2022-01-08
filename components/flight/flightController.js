@@ -76,4 +76,13 @@ module.exports = {
             console.log(err.message);
         }
     },
+    addFlightPage: async(req, res) => {
+        try {
+            const seatClassList = await flightService.seatClassList();
+            const airportList = await flightService.airportList();
+            res.render('flight/addFlight', { title: 'Add Flight', airportList, seatClassList, scripts: ['flight.js'] });
+        } catch (err) {
+            console.log(err.message);
+        }
+    },
 }

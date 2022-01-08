@@ -9,7 +9,6 @@ const passport = require('./auth/passport');
 const { checkAuthentication } = require('./auth/auth');
 const session = require("express-session");
 const flash = require('connect-flash');
-
 // router
 const indexRouter = require('./components/dashboard');
 const userRouter = require('./components/user');

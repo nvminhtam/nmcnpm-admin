@@ -132,5 +132,11 @@ module.exports = {
             id: id
         }
     }),
+    seatClassList: () => models.seat_class.findAll({
+        raw: true,
+    }),
+    airportList: () => models.airport.findAll({
+        raw: true,
+    })
 
 }
