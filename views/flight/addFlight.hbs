@@ -59,9 +59,10 @@
         </div>
     </div>
     <div class="main-section">
+
         <div class="container">
-            <div class="card p-2">
-                <form>
+            <form>
+                <div class="card p-2">
                     <h3 class="pb-2">Flight Segment Information:</h3>
                     <div class="row mx-auto">
                         <div class="col-6">
@@ -77,7 +78,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                        <label for="departureTime">Departure Time</label>
+                                    <label for="departureTime">Departure Time</label>
                                     <div class="input-group date" id="departureDatePicker">
                                         <input type="text" class="form-control" id="departureTime" />
                                         <span class="input-group-append">
@@ -86,6 +87,17 @@
                                             </span>
                                         </span>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="plane">Plane</label>
+                                    <select class="form-control form-select" id="plane" disabled>
+                                        <option hidden></option>
+                                        {{#each planeList}}
+                                        <option value={{id}}>{{aircraft_number}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +116,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group">
-                                        <label for="arrivalTime">Arrival Time</label>
+                                    <label for="arrivalTime">Arrival Time</label>
                                     <div class="input-group date" id="arrivalDatePicker">
                                         <input type="text" class="form-control" id="arrivalTime" />
                                         <span class="input-group-append">
@@ -115,31 +127,31 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mx-auto">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="plane">Plane</label>
-                                <select class="form-control form-select" id="plane" disabled>
-                                    <option hidden></option>
-                                    {{#each planeList}}
-                                    <option value={{id}}>{{aircraft_number}}</option>
-                                    {{/each}}
-                                </select>
+                            <div class="row">
+
+                                <div class="col d-flex justify-content-end my-auto">
+                                    <div class="btn btn-outline-danger">Remove</div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-                    <div class="row mx-auto d-flex align-items-center justify-content-center">
-                        <div class="col-4">
-                            <div class="form-group">
+
+
+
+                </div>
+                
+                <div class="row mx-auto d-flex align-items-center justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group">
                             <a href="javascript:void(0)" class="btn btn-info d-block" id="add-extend-flight-btn"
                                 onclick="addExtendFlight()">
                                 Add flight segment
                             </a>
-                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="card p-2">
                     <h3 class="pb-2 pt-2">Seat Class Information:</h3>
                     <div class="row mx-auto">
                         <div class="col-4">
@@ -168,16 +180,17 @@
                     <div class="row mx-auto d-flex align-items-center justify-content-center">
                         <div class="col-4">
                             <div class="form-group">
-                            <a href="javascript:void(0)" class="btn btn-info d-block" id="add-seat-class-btn"
-                                onclick="addExtendFlight()">
-                                Add seat class
-                            </a>
+                                <a href="javascript:void(0)" class="btn btn-info d-block" id="add-seat-class-btn"
+                                    onclick="addExtendFlight()">
+                                    Add seat class
+                                </a>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
+
     </div>
 </div>
 <style>
@@ -189,7 +202,30 @@
     #datepicker>span:hover {
         cursor: pointer;
     }
+
     .btn-info {
         color: #fff;
     }
 </style>
+<script type="text/javascript">
+    
+    readSingleFile()
+    function readSingleFile(evt) {
+        //Retrieve the first (and only!) File from the FileList object
+        var f = evt.target.files[0];
+
+        if (f) {
+            var r = new FileReader();
+            r.onload = function (e) {
+                var contents = e.target.result;
+                document.getElementById("ReadResult").innerHTML = contents;
+            }
+            r.readAsText(f);
+        } else {
+            alert("Failed to load file");
+        }
+    }
+
+    document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+
+</script>
