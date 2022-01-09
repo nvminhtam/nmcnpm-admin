@@ -19,6 +19,7 @@ const planeController = require('./components/plane');
 const authRouter = require('./components/auth');
 const profileRouter = require('./components/profile');
 const flightRouter = require('./components/flight');
+const billRouter = require('./components/bill');
 // helpers
 const helpers = require('./hbsHelpers');
 
@@ -68,6 +69,7 @@ app.use('/seat-classes', checkAuthentication, seatClassController);
 app.use('/planes', checkAuthentication, planeController);
 app.use('/profile', checkAuthentication, profileRouter);
 app.use('/flights', checkAuthentication, flightRouter);
+app.use('/bills', checkAuthentication, billRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

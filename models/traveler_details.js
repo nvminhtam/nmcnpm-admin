@@ -30,38 +30,6 @@ module.exports = function(sequelize, DataTypes) {
     date_of_birth: {
       type: DataTypes.DATEONLY,
       allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING(45),
-      allowNull: false
-    },
-    telephone: {
-      type: DataTypes.STRING(45),
-      allowNull: false
-    },
-    citizen_id: {
-      type: DataTypes.STRING(45),
-      allowNull: false
-    },
-    price: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    flight_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'flight_has_seat_class',
-        key: 'flight_id'
-      }
-    },
-    seat_class_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'flight_has_seat_class',
-        key: 'seat_class_id'
-      }
     }
   }, {
     sequelize,
@@ -89,14 +57,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "bill_id" },
-        ]
-      },
-      {
-        name: "fk_traveler_details_flight_has_seat_class1_idx",
-        using: "BTREE",
-        fields: [
-          { name: "flight_id" },
-          { name: "seat_class_id" },
         ]
       },
     ]
