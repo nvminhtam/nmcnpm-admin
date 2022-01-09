@@ -6,17 +6,30 @@ const helpers = (hbs) => {
         // Date formatter
         hbs.registerHelper('dateTime', date => date.toLocaleString('en-GB'));
 
+        hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
+
         // Address formatter
         hbs.registerHelper('address', (specific_address, ward, district, city) => `${specific_address ? `${specific_address},` : ''} phường ${ward}, quận ${district}, ${city}`);
 
-// Order status
-hbs.registerHelper('checkStatus', status => {
+// Bill status
+hbs.registerHelper('checkBillStatus', status => {
     console.log(status)
     if (status === 'Paid') 
         return 'success';
     else if (status === 'Reserved') 
         return 'warning';
-    else if (status === 'Cancel') 
+    else if (status === 'Canceled') 
+        return 'danger';
+    else return 'secondary';
+});
+// Flight status
+hbs.registerHelper('checkFlightStatus', status => {
+    console.log(status)
+    if (status === 'On Time') 
+        return 'success';
+    else if (status === 'Delayed') 
+        return 'warning';
+    else if (status === 'Canceled') 
         return 'danger';
     else return 'secondary';
 });

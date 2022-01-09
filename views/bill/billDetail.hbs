@@ -13,7 +13,7 @@
                         <li class="nav-item">
                             <a href="/users" class="nav-link px-3">Users</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a href="/flights" class="nav-link px-3">Flights</a>
                         </li>
                         <li class="nav-item">
@@ -25,7 +25,7 @@
                         <li class="nav-item">
                             <a href="/airports" class="nav-link px-3">Airports</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a href="/bills" class="nav-link px-3">Bills</a>
                         </li>
                         <li class="nav-item">
@@ -46,7 +46,7 @@
                                 <a href="/"><i class="bi bi-house-door-fill icon-1"></i></a>
                             </li>
                             <li class="breadcrumb-item text-uppercase active">
-                                Flights
+                                Bills
                             </li>
                             <li class="breadcrumb-item text-uppercase active">
                                 {{title}}
@@ -62,7 +62,109 @@
         <div class="container">
             <div class="card p-2">
                 <form>
-                    <h3 class="pb-2">1.Flight Information</h3>
+                    <h3 class="pb-2">1.Booking Information</h3>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input name="lastName" id="lastName" value="{{bill.last_name}}" class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input name="firstName" id="firstName" value="{{bill.first_name}}" class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input name="email" id="email" value="{{bill.email}}" class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="telephone">Telephone</label>
+                                <input name="telephone" id="telephone" value="{{bill.telephone}}" class="form-control" readonly/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <div name="status" id="status" class="badge bg-{{checkBillStatus bill.status}}">{{bill.status}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="pb-2">2.Passenger(s) Information</h3>
+                    <div style="width: 60%;" class="mx-auto">
+                        <div class="table-responsive">
+                            <table class="table mb-0 table-striped table-bordered" id="table-extend-flight">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Passenger(s) Name</th>
+                                        <th class="text-center">Date Of Birth</th>
+                                        <th class="text-center">Seat Class Name</th>
+                                        <th class="text-center">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    {{#each passengers}}
+                                    <tr>
+                                        <td class="text-center">
+                                            <h5>{{title}} {{last_name}} {{first_name}}</h5>
+                                        </td>
+                                        <td class="text-center">{{dateFormat date_of_birth "DD/MM/YYYY"}}</td>
+                                        <td class="text-center">{{seat_class_name}}</td>
+                                        <td class="text-center">{{#currencyFormat price}}{{/currencyFormat}}</td>
+                                    </tr>
+                                    {{/each}}
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-center">Total: {{#currencyFormat bill.amount}}{{/currencyFormat}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <h3 class="pb-2">3.Flight Information</h3>
+                    <div style="width: 90%;" class="mx-auto">
+                        <div class="table-responsive">
+                            <table class="table mb-0 table-striped table-bordered" id="table-extend-flight">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Departure</th>
+                                        <th class="text-center">Arrival</th>
+                                        <th class="text-center">Plane</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    {{#each extendFlight}}
+                                    <tr>
+                                        <td class="text-center">
+                                            <h5>{{departure_city}} ({{departure_airport}})</h5>
+                                            <div>{{departure_airport_name}}</div>
+                                            <div>{{#dateTime departure_time}}{{/dateTime}}</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <h5>{{arrival_city}} ({{arrival_airport}})</h5>
+                                            <div>{{arrival_airport_name}}</div>
+                                            <div>{{#dateTime arrival_time}}{{/dateTime}}</div>
+                                        </td>
+                                        <td class="text-center">{{plane}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+                {{!-- <form>
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -99,12 +201,12 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <div name="status" id="status" class="badge bg-{{checkFlightStatus flight.status}}">{{flight.status}}</div>
+                                <input name="status" id="status" type="text" value='{{flight.status}}'
+                                    class="form-control" autocomplete="off" readonly/>
                             </div>
                         </div>
                     </div>
-                    <h3 class="pb-2">2.Flight Segment Information</h3>
-                    <h5>Transit: {{transit}}</h5>
+                    <h4>Transit: {{transit}}</h4>
                     <div style="width: 90%;" class="mx-auto">
                         <div class="table-responsive">
                             <table class="table mb-0 table-striped table-bordered" id="table-extend-flight">
@@ -135,7 +237,7 @@
                             </table>
                         </div>
                     </div>
-                    <h3 class="pb-2">3.Seat Class Information</h3>
+                    <h4>Seat Class Information:</h4>
                     <div style="width: 50%;" class="mx-auto">
                         <div class="table-responsive">
                             <table class="table mb-0 table-striped table-bordered" id="table-extend-flight">
@@ -164,8 +266,15 @@
                     </div>
 
                     
-                </form>
+                </form> --}}
             </div>
         </div>
     </div>
 </div>
+<style>
+    .badge {
+        width: 100px;
+        line-height: 2;
+        margin-left: 2%;
+    }
+</style>

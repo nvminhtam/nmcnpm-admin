@@ -140,6 +140,5 @@ module.exports = {
     }),
     planeList: () => models.plane.findAll({
         raw: true,
-    })
-
+    }),
 }

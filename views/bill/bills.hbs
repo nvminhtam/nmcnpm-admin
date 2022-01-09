@@ -43,10 +43,10 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 align-items-center">
                             <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door-fill icon-1"></i></a></li>
-                            <li class="breadcrumb-item text-uppercase active">Orders</li>
+                            <li class="breadcrumb-item text-uppercase active">Bills</li>
                         </ol>
                     </nav>
-                    <h1 class="m-0 fw-bold">Orders</h1>
+                    <h1 class="m-0 fw-bold">Bills</h1>
                 </div>
             </div>
         </div>
@@ -55,17 +55,16 @@
         <div class="container">
             <div class="card">
                 <div class="m-3">
-                    <form action="/orders/search" method="get">
+                    <form action="/bills/search" method="get">
                         <div class="row">
                             <div class="col-md-4 mb-2">
                                 <div class="search-form">
                                     <select name="status" class="form-control form-select" id="status">
                                         {{#select status}}
                                             <option value="all">All</option>
-                                            <option value="success">Success</option>
-                                            <option value="delivering">Delivering</option>
-                                            <option value="prepairing">Prepairing</option>
-                                            <option value="cancel">Cancel</option>
+                                            <option value="Paid">Paid</option>
+                                            <option value="Reserved">Reserved</option>
+                                            <option value="Cancel">Cancel</option>
                                         {{/select}}
                                     </select>
                                 </div>
@@ -91,17 +90,18 @@
                     <table class="table mb-0 table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th style="min-width: 200px;">Customer Name</th>
-                                <th style="min-width: 350px;">Email</th>
-                                <th style="min-width: 200px;">Telephone</th>
-                                <th class="text-center" style="width: 200px;">Total</th>
-                                <th style="width: 50px;" class="text-center">Status</th>
+                                <th style="width: 5%;">ID</th>
+                                <th style="width: 20%;">Customer Name</th>
+                                <th style="width: 20%;">Email</th>
+                                <th style="width: 15%;">Telephone</th>
+                                <th style="width: 5%;">No.Passengers</th>
+                                <th style="width: 25%;" class="text-center">Total</th>
+                                <th style="width: 10%;" class="text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="bills">
                             {{#each bills}}
-                            <tr>
+                            <tr class='clickable-row' data-href='/bills/{{id}}'>
                                 <td>{{id}}</td>
                                 <td>
                                     {{last_name}} {{first_name}}
@@ -113,10 +113,13 @@
                                     {{telephone}}
                                 </td>
                                 <td class="text-center">
+                                    {{num_of_travelers}}
+                                </td>
+                                <td class="text-center">
                                     {{currencyFormat amount}}
                                 </td>
                                 <td class="text-center">
-                                    <span class="badge bg-{{checkStatus status}}">{{status}}</span>
+                                    <span class="badge bg-{{checkBillStatus status}}">{{status}}</span>
                                 </td>
                             </tr>
                             {{/each}}
