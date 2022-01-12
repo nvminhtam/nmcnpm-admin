@@ -83,6 +83,18 @@ h1 {
     font-size: 0.65rem;
 }
 
+.btn-info {
+    color: #fff;
+}
+
+.btn-info:hover {
+    color: #fff;
+}
+
+.btn-outline-info:hover {
+    color: #fff;
+}
+
 .search-form {
     background-color: rgba(0, 0, 0, 0.24);
     border-radius: 0.25rem;

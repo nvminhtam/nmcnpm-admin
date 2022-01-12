@@ -141,4 +141,11 @@ module.exports = {
     planeList: () => models.plane.findAll({
         raw: true,
     }),
+    removePlaneOutOfList: (planeList, planeId) => {
+        const index = planeList.map(function(e) { return e.id; }).indexOf(planeId);
+        if (index > -1) {
+            planeList.splice(index, 1);
+        }
+        return planeList;
+    },
 }
