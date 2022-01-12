@@ -70,6 +70,7 @@
                                 <div class="form-group">
                                     <label for="departureAirport">Departure Airport</label>
                                     <select class="form-control form-select" id="departureAirport">
+                                        <option hidden value="default"></option>
                                         {{#each airportList}}
                                         <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
                                         {{/each}}
@@ -79,14 +80,19 @@
                             <div class="row">
                                 <div class="form-group">
                                     <label for="departureTime">Departure Time</label>
-                                    <div class="input-group date" id="departureDatePicker">
-                                        <input type="text" class="form-control" id="departureTime" />
+                                    <div class="input-group date">
+                                        <input type="datetime-local" class="form-control" id="departureTime" />
                                         <span class="input-group-append">
                                             <span class="input-group-text bg-light d-block">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
                                         </span>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col d-flex justify-content-start my-auto">
+                                    <div class="btn btn-outline-info">Find suitable planes</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -107,6 +113,7 @@
                                     <label for="arrivalAirport">Arrival Airport</label>
                                     <div class="col">
                                         <select class="form-control form-select" id="arrivalAirport">
+                                            <option hidden value="default"></option>
                                             {{#each airportList}}
                                             <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
                                             {{/each}}
@@ -117,8 +124,8 @@
                             <div class="row">
                                 <div class="form-group">
                                     <label for="arrivalTime">Arrival Time</label>
-                                    <div class="input-group date" id="arrivalDatePicker">
-                                        <input type="text" class="form-control" id="arrivalTime" />
+                                    <div class="input-group date">
+                                        <input type="datetime-local" class="form-control" id="arrivalTime" />
                                         <span class="input-group-append">
                                             <span class="input-group-text bg-light d-block">
                                                 <i class="fa fa-calendar"></i>
@@ -128,19 +135,14 @@
                                 </div>
                             </div>
                             <div class="row">
-
+                                
                                 <div class="col d-flex justify-content-end my-auto">
                                     <div class="btn btn-outline-danger">Remove</div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
-
-
                 </div>
-                
                 <div class="row mx-auto d-flex align-items-center justify-content-center">
                     <div class="col-4">
                         <div class="form-group">
@@ -193,7 +195,7 @@
 
     </div>
 </div>
-<style>
+{{!-- <style>
     #datepicker {
         width: 180px;
         margin: 0 20px 20px 20px;
@@ -206,26 +208,4 @@
     .btn-info {
         color: #fff;
     }
-</style>
-<script type="text/javascript">
-    
-    readSingleFile()
-    function readSingleFile(evt) {
-        //Retrieve the first (and only!) File from the FileList object
-        var f = evt.target.files[0];
-
-        if (f) {
-            var r = new FileReader();
-            r.onload = function (e) {
-                var contents = e.target.result;
-                document.getElementById("ReadResult").innerHTML = contents;
-            }
-            r.readAsText(f);
-        } else {
-            alert("Failed to load file");
-        }
-    }
-
-    document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
-
-</script>
+</style> --}}
