@@ -6,9 +6,6 @@ const flightController = require('./flightController');
 // get flight list
 router.get('/', flightController.list);
 
-// // get flights search
-// router.get('/search', flightController.search);
-
 //get add flight page
 router.get('/addflight', flightController.addFlightPage);
 router.post('/addflight', flightController.addExtendFlight);

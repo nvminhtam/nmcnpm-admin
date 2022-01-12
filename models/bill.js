@@ -15,21 +15,13 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id'
       }
     },
-    flight_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'flight',
-        key: 'id'
-      }
-    },
     last_name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     first_name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING(45),
@@ -50,6 +42,14 @@ module.exports = function(sequelize, DataTypes) {
     status: {
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    flight_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    seat_class_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     sequelize,
@@ -73,17 +73,18 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "fk_Bill_Flight1_idx",
-        using: "BTREE",
-        fields: [
-          { name: "flight_id" },
-        ]
-      },
-      {
         name: "fk_Bill_Customer1_idx",
         using: "BTREE",
         fields: [
           { name: "customer_id" },
+        ]
+      },
+      {
+        name: "fk_bill_flight_has_seat_class1_idx",
+        using: "BTREE",
+        fields: [
+          { name: "flight_id" },
+          { name: "seat_class_id" },
         ]
       },
     ]
