@@ -30,7 +30,8 @@ const config = {
     time_24hr: true,
     enableSeconds: true
 }
-var count = 0;
+var eFlightcount = 0;
+var sClassCount = 0;
 jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
@@ -38,7 +39,7 @@ jQuery(document).ready(function($) {
     flatpickr("#departureTime", config);
     flatpickr("#arrivalTime", config);
 });
-const validateInfo = {
+const validateFlight = {
     rules: {
         "departureAirport": {
             valueNotEquals: "default"
@@ -86,28 +87,73 @@ const validateInfo = {
         label.remove();
     },
 };
-
-$("#add-extend-flight").click(function() {
-    event.preventDefault();
-    sendFlightSegment();
+const validateSeatClass = {
+    rules: {
+        "totalCount": {
+            min: 1,
+        },
+        "price": {
+            min: 0,
+        },
+    },
+    messages: {
+        "totalCount": {
+            min: "Number at least 1",
+        },
+        "price": {
+            min: "Price at least 0d",
+        },
+    },
+    errorPlacement: (error, element) => {
+        isValid = false;
+        element.css('background-color', '#ffdddd');
+        error.css('color', 'red');
+        error.css('margin-top', '10px');
+        error.insertAfter(element);
+    },
+    success: function(label, element) {
+        $(element).css('background-color', 'var(--mint)');
+        label.parent().removeClass('error');
+        label.remove();
+    },
+};
+$("#add-extend-flight-btn").click(function() {
     console.log("add flight click");
-    // $('#add-flight').validate({
-    //     ...validateInfo,
-    //     submitHandler: function(form, event) {
-    //         event.preventDefault();
-    //         sendFlightSegment();
-    //     }
-    // });
+    $('#add-flight').validate({
+        ...validateFlight,
+        submitHandler: function(form, event) {
+            event.preventDefault();
+            sendFlightSegment();
+        }
+    });
+})
+$("#add-seat-class-btn").click(function() {
+    console.log("add seat class click");
+    $('#add-seat-class').validate({
+        ...validateSeatClass,
+        submitHandler: function(form, event) {
+            event.preventDefault();
+            sendSeatClass();
+        }
+    });
 })
 window.onclick = e => {
     //console.log(e.target.id);
-    if (e.target.id == "remove") {
-        $(`#segment-${count}`).remove();
-        if (count != 1) {
-            $(`#parent-remove-btn-${count-1}`).append(`<div id="remove" value="remove" class="btn btn-outline-danger">Remove</div>`)
+    if (e.target.id == "removeExtendFlight") {
+        $(`#segment-${eFlightcount}`).remove();
+        if (eFlightcount != 1) {
+            $(`#parent-remove-ef-btn-${eFlightcount-1}`).append(`<div id="removeExtendFlight" value="removeExtendFlight" class="btn btn-outline-danger">Remove</div>`)
         }
-        count--;
-        document.getElementById("extendFlightCount").value = count;
+        eFlightcount--;
+        document.getElementById("extendFlightCount").value = eFlightcount;
+    }
+    if (e.target.id == "removeSeatClass") {
+        $(`#seat-class-${sClassCount}`).remove();
+        if (sClassCount != 1) {
+            $(`#parent-remove-sc-btn-${sClassCount-1}`).append(`<div id="removeSeatClass" value="removeSeatClass" class="btn btn-outline-danger">Remove</div>`)
+        }
+        sClassCount--;
+        document.getElementById("seatClassCount").value = sClassCount;
     }
 };
 
@@ -118,7 +164,6 @@ function sendFlightSegment() {
     const departureTime = document.getElementById("departureTime").value;
     const arrivalTime = document.getElementById("arrivalTime").value;
     const plane = document.getElementById('plane').value;
-    console.log("COUNT", extendFlightCount);
     var extendFlight = new Array();
     extendFlight[0] = {
         departureAirport: departureAirport,
@@ -161,6 +206,49 @@ function sendFlightSegment() {
     });
 }
 
+function sendSeatClass() {
+    const seatClassCount = document.getElementById("seatClassCount").value;
+    const seatClassId = document.getElementById("seatClassId").value;
+    const totalCount = document.getElementById("totalCount").value;
+    const price = document.getElementById("price").value;
+    var seatClass = new Array();
+    seatClass[0] = {
+        seatClassId: seatClassId,
+        totalCount: totalCount,
+        price: price,
+    }
+    for (let i = 0; i < seatClassCount; i++) {
+        const index = i + 1;
+        const seatClassId = document.getElementById("seatClassId" + index).value;
+        const totalCount = document.getElementById("totalCount" + index).value;
+        const price = document.getElementById("price" + index).value;
+        seatClass[index] = {
+            seatClassId: seatClassId,
+            totalCount: totalCount,
+            price: price,
+        }
+    }
+    const data = {
+        seatClassCount: parseInt(seatClassCount, 10),
+        seatClass: seatClass
+    }
+    console.log("DATA", data);
+    $.ajax({
+        contentType: "application/json",
+        url: '/flights/addseatclass',
+        dataType: "json",
+        type: 'POST', // http method
+        data: JSON.stringify(data),
+        success: function(data) {
+            console.log('success');
+            console.log(data.seatClassList.length);
+            if (data.seatClassList.length > 0) {
+                addSeatClass(data);
+            }
+        }
+    });
+}
+
 function render(filename, data) {
     var fr = new FileReader();
     fr.onload = function() {
@@ -172,157 +260,141 @@ function render(filename, data) {
     return output;
 }
 
-
-
-
 function addFlightSegment(data) {
-    const { departureAirportList, arrivalAirportList, currentDepartureAirport, planeList, extendFlightCount } = data;
-    count++;
-    document.getElementById("extendFlightCount").value = count;
-    if (count != 1) {
-        $(`#remove`).remove();
+    const { arrivalAirportList, currentDepartureAirport, planeList } = data;
+    eFlightcount++;
+    document.getElementById("extendFlightCount").value = eFlightcount;
+    if (eFlightcount != 1) {
+        $(`#removeExtendFlight`).remove();
     }
-    const html =
-        `<form id="add-flight">
-        <input name="extendFlightCount" id="extendFlightCount" type="hidden"
-                            value="{{extendFlightCount}}" class="form-control" />
-    <div id="segment-${count}">
-        <div class="card p-2">
+    const html = `
+    <div id="segment-${eFlightcount}">
+    <div class="card p-2">
         <h3 class="pb-2">Flight Segment Information:</h3>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="departureAirport">Departure Airport</label>
-                        <input id="departureAirport${count}" class="form-control" name="departureAirport" value="${currentDepartureAirport.airport_name} (${currentDepartureAirport.symbol_code}) - ${currentDepartureAirport.city}" disable>
-                        </input>
-                    </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="departureAirport${eFlightcount}">Departure Airport</label>
+                    <input id="departureAirport${eFlightcount}" class="form-control" name="departureAirport" value="${currentDepartureAirport.airport_name} (${currentDepartureAirport.symbol_code}) - ${currentDepartureAirport.city}" disable>
+                    </input>
                 </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="arrivalAirport">Arrival Airport</label>
-                        <div class="col">
-                            <select id="arrivalAirport${count}" class="form-control form-select" name="arrivalAirport">
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="arrivalAirport${eFlightcount}">Arrival Airport</label>
+                    <div class="col">
+                        <select id="arrivalAirport${eFlightcount}" class="form-control form-select" name="arrivalAirport">
                             <option hidden value="default"></option>
                         </select>
-                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="departureTime">Departure Time</label>
-                        <div class="input-group date">
-                            <span class="input-group-append">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="departureTime${eFlightcount}">Departure Time</label>
+                    <div class="input-group date">
+                        <span class="input-group-append">
                             <span class="input-group-text bg-light d-block">
                                 <i class="fa fa-calendar"></i>
                             </span>
-                            </span>
-                            <input type="datetime-local" class="form-control" id="departureTime${count}" name="departureTime" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="arrivalTime">Arrival Time</label>
-                        <div class="input-group date">
-                            <span class="input-group-append">
-                            <span class="input-group-text bg-light d-block">
-                                <i class="fa fa-calendar"></i>
-                            </span>
-                            </span>
-                            <input type="datetime-local" class="form-control" id="arrivalTime${count}" name="arrivalTime" />
-                        </div>
+                        </span>
+                        <input type="datetime-local" class="form-control" id="departureTime${eFlightcount}" name="departureTime" />
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="plane">Plane</label>
-                        <select class="form-control form-select" id="plane${count}" name="plane">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="arrivalTime${eFlightcount}">Arrival Time</label>
+                    <div class="input-group date">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                        <input type="datetime-local" class="form-control" id="arrivalTime${eFlightcount}" name="arrivalTime" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="plane${eFlightcount}">Plane</label>
+                    <select class="form-control form-select" id="plane${eFlightcount}" name="plane">
                         <option hidden></option>
                     </select>
-                    </div>
                 </div>
             </div>
+        </div>
         <div class="row">
-            <div class="col d-flex justify-content-end my-auto" id="parent-remove-btn-${count}">
-                <div id="remove" value="remove" class="btn btn-outline-danger">Remove</div>
+            <div class="col d-flex justify-content-end my-auto" id="parent-remove-ef-btn-${eFlightcount}">
+                <div id="removeExtendFlight" value="removeExtendFlight" class="btn btn-outline-danger">Remove</div>
             </div>
         </div>
     </div>
-</form>`
+</div>`
     $('#list-segment').append(html);
 
     for (let index = 0; index < arrivalAirportList.length; index++) {
         const element = arrivalAirportList[index];
-        $(`#arrivalAirport${count}`).append(`
-    <option value=${element.id}>${element.airport_name} ( ${element.symbol_code}) - ${element.city}</option>
-    `)
+        $(`#arrivalAirport${eFlightcount}`).append(`
+        <option value=${element.id}>${element.airport_name} ( ${element.symbol_code}) - ${element.city}</option>`)
     }
     for (let index = 0; index < planeList.length; index++) {
         const element = planeList[index];
-        $(`#plane${count}`).append(`
-    <option value=${element.id}>${element.aircraft_number}</option>
-    `)
+        $(`#plane${eFlightcount}`).append(`
+    <option value=${element.id}>${element.aircraft_number}</option>`)
     }
-    flatpickr(`#departureTime${count}`, config);
-    flatpickr(`#arrivalTime${count}`, config);
+    flatpickr(`#departureTime${eFlightcount}`, config);
+    flatpickr(`#arrivalTime${eFlightcount}`, config);
 };
 
-
-
-
-
-
-
-
-
-
-
-
-var seatClassCount = 0;
-$("#add-seat-class-btn").on("click", function() {
-    seatClassCount++;
-    const html = ` <div id="seat-class-${seatClassCount}" class="card p-2">
-    <h3 class="pb-2 pt-2">Seat Class Information:</h3>
-    <div class="row mx-auto">
-        <div class="col-4">
-            <div class="form-group">
-                <label for="seatClass">Seat Class</label>
-                <select class="form-control form-select" id="seatClass-${count}">
-                    {{#each seatClassList}}
-                    <option value={{id}}>{{name}}</option>
-                    {{/each}}
+function addSeatClass(data) {
+    const { seatClassList } = data;
+    sClassCount++;
+    document.getElementById("seatClassCount").value = sClassCount;
+    console.log("seat", seatClassList);
+    if (sClassCount != 1) {
+        $(`#removeSeatClass`).remove();
+    }
+    const html = `
+    <div id="seat-class-${sClassCount}">
+    <div class="card p-2">
+        <h3 class="pb-2 pt-2">Seat Class Information:</h3>
+        <div class="row mx-auto">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="seatClassId${sClassCount}">Seat Class</label>
+                    <select class="form-control form-select" id="seatClassId${sClassCount}">  
                 </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="totalCount${sClassCount}">Total Count</label>
+                    <input id="totalCount${sClassCount}" type="number" class="form-control" value="1" min="1" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="price${sClassCount}">Price</label>
+                    <input id="price${sClassCount}" type="number" class="form-control" value="100000" min="100000" />
+                </div>
             </div>
         </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="totalCount">Total Count</label>
-                <input id="totalCount-${count}" type="number" class="form-control" value="1" min="1" />
+        <div class="row">
+            <div class="col d-flex justify-content-end my-auto" id="parent-remove-sc-btn-${eFlightcount}">
+                <div id="removeSeatClass" value="removeSeatClass" class="btn btn-outline-danger">Remove</div>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input id="price-${count}" type="number" class="form-control" value="100000" min="100000" />
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col d-flex justify-content-end my-auto">
-            <div class="btn btn-outline-danger">Remove</div>
         </div>
     </div>
 </div>`
     $('#list-seat-class').append(html);
-    for (let i = 0; i <= seatClassCount; i++) {
-        $(`#remove-seat-${i}`).on("click", function() {
-            $(`seat-class-${i}`).remove();
-
-        })
+    console.log("olala");
+    for (let index = 0; index < seatClassList.length; index++) {
+        const element = seatClassList[index];
+        $(`#seatClassId${sClassCount}`).append(`<option value=${element.id}>${element.name}</option>`)
     }
-
-});
+};

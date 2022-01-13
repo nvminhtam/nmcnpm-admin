@@ -141,11 +141,14 @@ module.exports = {
     planeList: () => models.plane.findAll({
         raw: true,
     }),
-    removePlaneOutOfList: (planeList, planeId) => {
-        const index = planeList.map(function(e) { return e.id; }).indexOf(planeId);
+    removeSeatClassOutOfList: (seatClassList, seatClassId) => {
+        const index = seatClassList.map(function(e) { console.log(e.id); return e.id; }).indexOf(seatClassId);
         if (index > -1) {
-            planeList.splice(index, 1);
+            seatClassList.splice(index, 1);
         }
-        return planeList;
+        console.log("hule", index);
+        console.log("hule", seatClassId);
+        console.log("hule", seatClassList);
+        return seatClassList;
     },
 }

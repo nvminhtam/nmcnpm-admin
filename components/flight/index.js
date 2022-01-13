@@ -8,8 +8,9 @@ router.get('/', flightController.list);
 
 //get add flight page
 router.get('/addflight', flightController.addFlightPage);
-router.post('/addflight', flightController.addExtendFlight);
+// router.post('/addflight', flightController.addExtendFlight);
 router.post('/addextendflight', flightController.addExtendFlight);
+router.post('/addseatclass', flightController.addSeatClass);
 //router.post('/addflight', flightController.addFlightForm);
 
 // //get update flight page

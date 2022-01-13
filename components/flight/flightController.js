@@ -103,32 +103,43 @@ module.exports = {
             // }
             const seatClassList = await flightService.seatClassList();
             const extendFlightCount = 0;
+            const seatClassCount = 0;
             const currentDepartureAirport = null;
             const extendFlightList = new Array();
             // console.log("a", planeList);
             // console.log("b", extendFlightList);
             // console.log("c", currentDepartureAirport);
-            res.render('flight/addFlight', { title: 'Add Flight', extendFlightCount, planeList, extendFlightList, currentDepartureAirport, departureAirportList, arrivalAirportList, seatClassList, scripts: ['flight.js'] });
+            res.render('flight/addFlight', { title: 'Add Flight', extendFlightCount, seatClassCount, planeList, extendFlightList, currentDepartureAirport, departureAirportList, arrivalAirportList, seatClassList, scripts: ['flight.js'] });
         } catch (err) {
             console.log(err.message);
         }
     },
     addExtendFlight: async(req, res) => {
         try {
-            var { extendFlightCount, plane, extendFlight } = req.body;
-            console.log("BODY", req.body);
-            console.log("a", extendFlightCount);
-            const departureAirportList = await flightService.airportList();
+            var { extendFlightCount, extendFlight } = req.body;
             const arrivalAirportList = await flightService.airportList();
             var planeList = await flightService.planeList();
-            var currentDepartureAirport = null;
-            console.log(extendFlightCount);
-            currentDepartureAirport = await flightService.findAirportById(extendFlight[extendFlightCount].arrivalAirport);
-            const seatClassList = await flightService.seatClassList();
-            //console.log("a", planeList);
-            console.log("b", extendFlight);
-            console.log("c", currentDepartureAirport);
-            res.status(200).send({ title: 'Add Flight', extendFlightCount, planeList, extendFlight, currentDepartureAirport, departureAirportList, arrivalAirportList, seatClassList, scripts: ['flight.js'] });
+            const currentDepartureAirport = await flightService.findAirportById(extendFlight[extendFlightCount].arrivalAirport);
+            res.status(200).send({ title: 'Add Flight', planeList, currentDepartureAirport, arrivalAirportList, scripts: ['flight.js'] });
+            //res.end();
+            //res.render('flight/addFlight', { title: 'Add Flight', extendFlightCount, planeList, extendFlightList, currentDepartureAirport, departureAirportList, arrivalAirportList, seatClassList, scripts: ['flight.js'] });
+        } catch (err) {
+            console.log(err.message);
+        }
+    },
+    addSeatClass: async(req, res) => {
+        try {
+            var { seatClassCount, seatClass } = req.body;
+            console.log("BODY", req.body);
+            console.log("a", seatClassCount);
+            var seatClassList = await flightService.seatClassList();
+            console.log("b", seatClassList);
+            for (let i = 0; i < seatClass.length; i++) {
+                console.log("c", parseInt(seatClass[i].seatClassId));
+                seatClassList = await flightService.removeSeatClassOutOfList(seatClassList, parseInt(seatClass[i].seatClassId));
+            }
+            console.log("d", seatClassList);
+            res.status(200).send({ title: 'Add Flight', seatClassList, scripts: ['flight.js'] });
             //res.end();
             //res.render('flight/addFlight', { title: 'Add Flight', extendFlightCount, planeList, extendFlightList, currentDepartureAirport, departureAirportList, arrivalAirportList, seatClassList, scripts: ['flight.js'] });
         } catch (err) {
