@@ -118,7 +118,6 @@ const validateSeatClass = {
     },
 };
 $("#add-extend-flight-btn").click(function() {
-    console.log("add flight click");
     $('#add-flight').validate({
         ...validateFlight,
         submitHandler: function(form, event) {
@@ -128,7 +127,6 @@ $("#add-extend-flight-btn").click(function() {
     });
 })
 $("#add-seat-class-btn").click(function() {
-    console.log("add seat class click");
     $('#add-seat-class').validate({
         ...validateSeatClass,
         submitHandler: function(form, event) {
@@ -138,7 +136,6 @@ $("#add-seat-class-btn").click(function() {
     });
 })
 window.onclick = e => {
-    //console.log(e.target.id);
     if (e.target.id == "removeExtendFlight") {
         $(`#segment-${eFlightcount}`).remove();
         if (eFlightcount != 1) {
@@ -191,7 +188,6 @@ function sendFlightSegment() {
         extendFlightCount: parseInt(extendFlightCount, 10),
         extendFlight: extendFlight
     }
-    console.log("DATA", data);
     $.ajax({
         contentType: "application/json",
         url: '/flights/addextendflight',
@@ -199,8 +195,6 @@ function sendFlightSegment() {
         type: 'POST', // http method
         data: JSON.stringify(data),
         success: function(data) {
-            console.log('success');
-            console.log(data);
             addFlightSegment(data);
         }
     });
@@ -232,7 +226,6 @@ function sendSeatClass() {
         seatClassCount: parseInt(seatClassCount, 10),
         seatClass: seatClass
     }
-    console.log("DATA", data);
     $.ajax({
         contentType: "application/json",
         url: '/flights/addseatclass',
@@ -240,8 +233,6 @@ function sendSeatClass() {
         type: 'POST', // http method
         data: JSON.stringify(data),
         success: function(data) {
-            console.log('success');
-            console.log(data.seatClassList.length);
             if (data.seatClassList.length > 0) {
                 addSeatClass(data);
             }
@@ -355,7 +346,6 @@ function addSeatClass(data) {
     const { seatClassList } = data;
     sClassCount++;
     document.getElementById("seatClassCount").value = sClassCount;
-    console.log("seat", seatClassList);
     if (sClassCount != 1) {
         $(`#removeSeatClass`).remove();
     }
@@ -392,7 +382,6 @@ function addSeatClass(data) {
     </div>
 </div>`
     $('#list-seat-class').append(html);
-    console.log("olala");
     for (let index = 0; index < seatClassList.length; index++) {
         const element = seatClassList[index];
         $(`#seatClassId${sClassCount}`).append(`<option value=${element.id}>${element.name}</option>`)

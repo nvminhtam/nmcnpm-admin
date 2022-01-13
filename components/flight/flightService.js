@@ -146,9 +146,6 @@ module.exports = {
         if (index > -1) {
             seatClassList.splice(index, 1);
         }
-        console.log("hule", index);
-        console.log("hule", seatClassId);
-        console.log("hule", seatClassList);
         return seatClassList;
     },
 }
