@@ -177,16 +177,8 @@ function render(filename, data) {
 
 function addFlightSegment(data) {
     const { departureAirportList, arrivalAirportList, currentDepartureAirport, planeList, extendFlightCount } = data;
-    console.log("Hello", data);
     count++;
     document.getElementById("extendFlightCount").value = count;
-    const hihi = document.getElementById("extendFlightCount").value;
-    console.log("hihi", hihi);
-    // for (let i = 1; i < count; i++) {
-    //     if (i != count) {
-
-    //     }
-    // }
     if (count != 1) {
         $(`#remove`).remove();
     }

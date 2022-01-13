@@ -122,20 +122,6 @@ module.exports = {
             const arrivalAirportList = await flightService.airportList();
             var planeList = await flightService.planeList();
             var currentDepartureAirport = null;
-            // var extendFlightList = new Array();
-            // for (let i = 0; i < extendFlightCount; i++) {
-            //     extendFlightList[i] = extendFlight[i];
-            // }
-            // extendFlightList[extendFlightCount] = {
-            //     dpartureAirport: newDepartureAirport,
-            //     arrivalAirport: newArrivalAirport,
-            //     departureTime: newDepartureTime,
-            //     arrivalTime: newArrivalTime,
-            // }
-            // console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            // for (let i = 0; i <= extendFlightCount; i++) {
-            //     console.log(extendFlightList[i]);
-            // }
             console.log(extendFlightCount);
             currentDepartureAirport = await flightService.findAirportById(extendFlight[extendFlightCount].arrivalAirport);
             const seatClassList = await flightService.seatClassList();
