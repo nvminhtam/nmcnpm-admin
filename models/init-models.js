@@ -36,6 +36,10 @@ function initModels(sequelize) {
   flight.hasMany(extend_flight, { as: "extend_flights", foreignKey: "flight_id"});
   flight_has_seat_class.belongsTo(flight, { as: "flight", foreignKey: "flight_id"});
   flight.hasMany(flight_has_seat_class, { as: "flight_has_seat_classes", foreignKey: "flight_id"});
+  bill.belongsTo(flight_has_seat_class, { as: "flight", foreignKey: "flight_id"});
+  flight_has_seat_class.hasMany(bill, { as: "bills", foreignKey: "flight_id"});
+  bill.belongsTo(flight_has_seat_class, { as: "seat_class", foreignKey: "seat_class_id"});
+  flight_has_seat_class.hasMany(bill, { as: "seat_class_bills", foreignKey: "seat_class_id"});
   extend_flight.belongsTo(plane, { as: "plane", foreignKey: "plane_id"});
   plane.hasMany(extend_flight, { as: "extend_flights", foreignKey: "plane_id"});
   flight_has_seat_class.belongsTo(seat_class, { as: "seat_class", foreignKey: "seat_class_id"});

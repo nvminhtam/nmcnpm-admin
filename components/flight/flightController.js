@@ -138,7 +138,7 @@ module.exports = {
             //     console.log(extendFlightList[i]);
             // }
             console.log(extendFlightList);
-            currentDepartureAirport = extendFlightList[extendFlightCount].arrivalAirport;
+            currentDepartureAirport = await flightService.findAirportById(extendFlightList[extendFlightCount].arrivalAirport);
             const seatClassList = await flightService.seatClassList();
             console.log("a", planeList);
             console.log("b", extendFlightList);
