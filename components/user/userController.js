@@ -3,7 +3,6 @@ const userService = require('./userService');
 module.exports = {
     list: async(req, res) => {
         try {
-            console.log(req.query)
             const page = (!isNaN(req.query.page) && req.query.page > 0) ? Number(req.query.page) : 1;
             const url = req.url;
             const keyword = req.query.keyword;
@@ -21,8 +20,7 @@ module.exports = {
     },
     search: async(req, res) => {
         try {
-            console.log(1)
-                //get request params
+            //get request params
             const page = (!isNaN(req.query.page) && req.query.page > 0) ? Number(req.query.page) : 1;
             const search = req.query.keyword;
             const url = req.url;

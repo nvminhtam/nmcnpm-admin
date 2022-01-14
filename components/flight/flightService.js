@@ -13,7 +13,7 @@ const extendFlightListConfig = {
         'status',
         'total_seat_count',
         'booked_seat_count',
-        'price'
+
     ],
     required: true,
     include: [{
@@ -101,6 +101,11 @@ const seatClassListConfig = {
     ]
 }
 module.exports = {
+    countFlight: (page = 0, itemsPerPage = 5) => models.flight.findAndCountAll({
+        raw: true,
+        offset: itemsPerPage * page,
+        limit: itemsPerPage
+    }),
     flightList: (page = 0, itemsPerPage = 5) => models.flight.findAll({
         raw: true,
         offset: itemsPerPage * page,
@@ -141,11 +146,50 @@ module.exports = {
     planeList: () => models.plane.findAll({
         raw: true,
     }),
-    removePlaneOutOfList: (planeList, planeId) => {
-        const index = planeList.map(function(e) { return e.id; }).indexOf(planeId);
+    removeSeatClassOutOfList: (seatClassList, seatClassId) => {
+        const index = seatClassList.map(function(e) { console.log(e.id); return e.id; }).indexOf(seatClassId);
         if (index > -1) {
-            planeList.splice(index, 1);
+            seatClassList.splice(index, 1);
         }
-        return planeList;
+        return seatClassList;
     },
+    addFlight: (flightData) => models.flight.create({
+        departure_airport_id: flightData.departure_airport_id,
+        arrival_airport_id: flightData.arrival_airport_id,
+        departure_time: flightData.departure_time,
+        arrival_time: flightData.arrival_time,
+        status: flightData.status,
+        total_seat_count: flightData.total_seat_count,
+        booked_seat_count: flightData.booked_seat_count,
+    }),
+    addExtendFlight: async(flightId, extendFlight) => {
+        for (let i = 0; i < extendFlight.length; i++) {
+            await models.extend_flight.create({
+                flight_id: flightId,
+                plane_id: extendFlight[i].plane,
+                departure_airport_id: extendFlight[i].departureAirport,
+                arrival_airport_id: extendFlight[i].arrivalAirport,
+                departure_time: new Date(extendFlight[i].departureTime),
+                arrival_time: new Date(extendFlight[i].arrivalTime),
+            })
+        }
+    },
+    addFlightHasSeatClass: async(flightId, seatClass) => {
+        for (let i = 0; i < seatClass.length; i++) {
+            await models.flight_has_seat_class.create({
+                flight_id: flightId,
+                seat_class_id: seatClass[i].seatClassId,
+                price: seatClass[i].price,
+                total_seat_count: seatClass[i].totalCount,
+                booked_seat_count: 0
+            })
+        }
+    },
+    updateStatus: (id, status) => models.flight.update({
+        status: status
+    }, {
+        where: {
+            id: id
+        }
+    })
 }

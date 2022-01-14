@@ -60,253 +60,151 @@
     </div>
     <div class="main-section">
         <div class="container">
-            {{#if currentDepartureAirport}}
-            {{#each extendFlightList}}
-            <div class="card p-2">
-                <h3 class="pb-2">Flight Segment Information:</h3>    
-                <form id="add-flight-1">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="departureAirport">Departure Airport</label>
-                                <select class="form-control form-select" id="departureAirport" name="departureAirport">
-                                    <option hidden value="default"></option>
-                                    {{#each ../departureAirportList}}
-                                    <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                    {{/each}}
-                                </select>
+            <form id="add-extend-flight">
+                <div id="list-segment">
+                    <div id="segment-0">
+                        <div class="card p-2">
+                            <h3 class="pb-2">Flight Segment Information:</h3>
+                            <input name="extendFlightCount" id="extendFlightCount" type="hidden"
+                                value="{{extendFlightCount}}" class="form-control" />
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="departureAirport">Departure Airport</label>
+                                        <select class="form-control form-select" id="departureAirport"
+                                            name="departureAirport">
+                                            <option hidden value="default"></option>
+                                            {{#each departureAirportList}}
+                                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="arrivalAirport">Arrival Airport</label>
+                                        <div class="col">
+                                            <select class="form-control form-select" id="arrivalAirport"
+                                                name="arrivalAirport">
+                                                <option hidden value="default"></option>
+                                                {{#each arrivalAirportList}}
+                                                <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}
+                                                </option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="departureTime">Departure Time</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-light d-block">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </span>
+                                            <input type="datetime-local" class="form-control" id="departureTime"
+                                                name="departureTime" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="arrivalTime">Arrival Time</label>
+                                        <div class="input-group date">
+                                            <span class="input-group-append">
+                                                <span class="input-group-text bg-light d-block">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </span>
+                                            <input type="datetime-local" class="form-control" id="arrivalTime"
+                                                name="arrivalTime" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="plane">Plane</label>
+                                        <select class="form-control form-select" id="plane" name="plane">
+                                            <option hidden></option>
+                                            {{#each planeList}}
+                                            <option value={{id}}>{{aircraft_number}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="arrivalAirport">Arrival Airport</label>
-                                <div class="col">
-                                    <select class="form-control form-select" id="arrivalAirport" name="arrivalAirport">
-                                        <option hidden value="default"></option>
-                                        {{#each arrivalAirportList}}
-                                        <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                    </div>
+                </div>
+                <div class="row mx-auto d-flex align-items-center justify-content-center">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <button class="btn btn-info d-block" id="add-extend-flight-btn" style="width: 350px;">
+                                Add flight segment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form id="add-seat-class">
+                <div id="list-seat-class">
+                    <div class="card p-2">
+                        <h3 class="pb-2 pt-2">Seat Class Information:</h3>
+                        <input name="seatClassCount" id="seatClassCount" type="hidden" value="{{seatClassCount}}"
+                            class="form-control" />
+                        <div class="row mx-auto">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="seatClassId">Seat Class</label>
+                                    <select class="form-control form-select" id="seatClassId" name="seatClassId">
+                                        {{#each seatClassList}}
+                                        <option value={{id}}>{{name}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="departureTime">Departure Time</label>
-                                <div class="input-group date">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text bg-light d-block">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </span>
-                                    <input type="datetime-local" class="form-control" id="departureTime"
-                                        name="departureTime" />
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="totalCount">Total Count</label>
+                                    <input id="totalCount" type="number" class="form-control" value="1" min="1"
+                                        name="totalCount" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="arrivalTime">Arrival Time</label>
-                                <div class="input-group date">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text bg-light d-block">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </span>
-                                    <input type="datetime-local" class="form-control" id="arrivalTime"
-                                        name="arrivalTime" />
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input id="price" type="number" class="form-control" value="100000" min="0"
+                                        name="price" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col d-flex justify-content-start">
-                                <button type="submit" class="btn btn-outline-info" id="find-plane">Find suitable planes</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <form id="add-flight-2">
-                    <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="plane">Plane</label>
-                            <select class="form-control form-select" id="plane" name="plane" disabled>
-                                <option hidden></option>
-                                {{#each planeList}}
-                                <option value={{id}}>{{aircraft_number}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
                 </div>
-                </form>
-                <div class="row">
-                    <div class="col d-flex justify-content-end my-auto">
-                        <div class="btn btn-outline-danger">Remove</div>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-            {{/if}}
-            <div class="card p-2">
-                <h3 class="pb-2">Flight Segment Information:</h3>    
-                <form id="add-flight-1">
-                    <input name="extendFlightCount" id="extendFlightCount" type="hidden" value="{{extendFlightCount}}" class="form-control" />
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="departureAirport">Departure Airport</label>
-                                <select class="form-control form-select" id="departureAirport" name="departureAirport">
-                                    <option hidden value="default"></option>
-                                    {{#each departureAirportList}}
-                                    <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="arrivalAirport">Arrival Airport</label>
-                                <div class="col">
-                                    <select class="form-control form-select" id="arrivalAirport" name="arrivalAirport">
-                                        <option hidden value="default"></option>
-                                        {{#each arrivalAirportList}}
-                                        <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="departureTime">Departure Time</label>
-                                <div class="input-group date">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text bg-light d-block">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </span>
-                                    <input type="datetime-local" class="form-control" id="departureTime"
-                                        name="departureTime" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="arrivalTime">Arrival Time</label>
-                                <div class="input-group date">
-                                    <span class="input-group-append">
-                                        <span class="input-group-text bg-light d-block">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </span>
-                                    <input type="datetime-local" class="form-control" id="arrivalTime"
-                                        name="arrivalTime" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div class="col d-flex justify-content-start">
-                                <button type="submit" class="btn btn-outline-info" id="find-plane">Find suitable planes</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <form id="add-flight-2">
-                    <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="plane">Plane</label>
-                            <select class="form-control form-select" id="plane" name="plane" disabled>
-                                <option hidden></option>
-                                {{#each planeList}}
-                                <option value={{id}}>{{aircraft_number}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                </form>
-                <div class="row">
-                    <div class="col d-flex justify-content-end my-auto">
-                        <div class="btn btn-outline-danger">Remove</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row mx-auto d-flex align-items-center justify-content-center">
-                <div class="col-4">
-                    <div class="form-group">
-                        <a class="btn btn-info d-block" id="add-extend-flight" type="submit">
-                            Add flight segment
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="card p-2">
-                <h3 class="pb-2 pt-2">Seat Class Information:</h3>
-                <div class="row mx-auto">
+                <div class="row mx-auto d-flex align-items-center justify-content-center">
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="seatClass">Seat Class</label>
-                            <select class="form-control form-select" id="seatClass">
-                                {{#each seatClassList}}
-                                <option value={{id}}>{{name}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="totalCount">Total Count</label>
-                            <input id="totalCount" type="number" class="form-control" value="1" min="1" />
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="price">Price</label>
-                            <input id="price" type="number" class="form-control" value="100000" min="100000" />
+                            <button class="btn btn-info d-block" id="add-seat-class-btn" style="width: 350px;">
+                                Add seat class
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col d-flex justify-content-end my-auto">
-                        <div class="btn btn-outline-danger">Remove</div>
-                    </div>
+            </form>
+            <div class="row">
+                <div class="text-end mb-5">
+                    <button id="add-flight" class="btn btn-success">Create</button>
                 </div>
             </div>
-            <div class="row mx-auto d-flex align-items-center justify-content-center">
-                <div class="col-4">
-                    <div class="form-group">
-                        <a href="javascript:void(0)" class="btn btn-info d-block" id="add-seat-class-btn"
-                            onclick="addSeatClass()">
-                            Add seat class
-                        </a>
-                    </div>
-                </div>
+            <div class="row">
+                <div id="errorMessage"></div>
+                <div id="successfulMessage"></div>
             </div>
         </div>
     </div>
 </div>
-{{!-- <style>
-    #datepicker {
-        width: 180px;
-        margin: 0 20px 20px 20px;
-    }
-
-    #datepicker>span:hover {
-        cursor: pointer;
-    }
-
-    .btn-info {
-        color: #fff;
-    }
-</style> --}}

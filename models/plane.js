@@ -9,11 +9,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     airline_name: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     },
     aircraft_number: {
       type: DataTypes.STRING(45),
-      allowNull: true
+      allowNull: false
     }
   }, {
     sequelize,
@@ -22,6 +22,14 @@ module.exports = function(sequelize, DataTypes) {
     indexes: [
       {
         name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
+      },
+      {
+        name: "id_UNIQUE",
         unique: true,
         using: "BTREE",
         fields: [

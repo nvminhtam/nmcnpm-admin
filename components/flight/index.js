@@ -8,15 +8,12 @@ router.get('/', flightController.list);
 
 //get add flight page
 router.get('/addflight', flightController.addFlightPage);
-router.post('/addflight', flightController.addExtendFlight);
+router.post('/addflight', flightController.addFlightForm);
 router.post('/addextendflight', flightController.addExtendFlight);
-//router.post('/addflight', flightController.addFlightForm);
+router.post('/addseatclass', flightController.addSeatClass);
 
-// //get update flight page
-// router.get('/updateadmin/:adminId', flightController.updateAdminPage);
-// router.post('/updateadmin', flightController.updateAdminForm);
-
-
+router.get('/updateflight/:flightId', flightController.updateFlightPage);
+router.post('/updateflight/:flightId', flightController.updateFlightForm);
 // get flight detail
 router.get('/:flightId', flightController.detail);
 module.exports = router;

@@ -1,0 +1,86 @@
+<div class="card p-2">
+    <h3 class="pb-2">Flight Segment Information:</h3>
+    <form id="add-flight-1">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="departureAirport">Departure Airport</label>
+                    <select class="form-control form-select" id="departureAirport" name="departureAirport">
+                        <option hidden value="default"></option>
+                        {{#each ../departureAirportList}}
+                        <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="arrivalAirport">Arrival Airport</label>
+                    <div class="col">
+                        <select class="form-control form-select" id="arrivalAirport" name="arrivalAirport">
+                            <option hidden value="default"></option>
+                            {{#each arrivalAirportList}}
+                            <option value={{id}}>{{airport_name}} ({{symbol_code}}) - {{city}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="departureTime">Departure Time</label>
+                    <div class="input-group date">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                        <input type="datetime-local" class="form-control" id="departureTime" name="departureTime" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="arrivalTime">Arrival Time</label>
+                    <div class="input-group date">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-light d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                        <input type="datetime-local" class="form-control" id="arrivalTime" name="arrivalTime" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col d-flex justify-content-start">
+                    <button type="submit" class="btn btn-outline-info" id="find-plane">Find suitable planes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form id="add-flight-2">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="plane">Plane</label>
+                    <select class="form-control form-select" id="plane" name="plane" disabled>
+                        <option hidden></option>
+                        {{#each planeList}}
+                        <option value={{id}}>{{aircraft_number}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col d-flex justify-content-end my-auto">
+            <div id="remove-segment{{id}}" class="btn btn-outline-danger">Remove</div>
+        </div>
+    </div>
+</div>
