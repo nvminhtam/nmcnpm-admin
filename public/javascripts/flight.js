@@ -301,17 +301,6 @@ function sendSeatClass() {
     });
 }
 
-// function render(filename, data) {
-//     var fr = new FileReader();
-//     fr.onload = function() {
-//         document.getElementById('output')
-//             .textContent = fr.result;
-//     }
-//     var template = Handlebars.compile(readSingleFile());
-//     var output = template(data);
-//     return output;
-// }
-
 function addFlightSegment(data) {
     const { arrivalAirportList, currentDepartureAirport, planeList } = data;
     eFlightcount++;
@@ -449,3 +438,23 @@ function addSeatClass(data) {
         $(`#seatClassId${sClassCount}`).append(`<option value=${element.id}>${element.name}</option>`)
     }
 };
+
+$('#status-flight').on('change', function() {
+    const id = $('#flight-id').val();
+    const status = this.value;
+    $.ajax({
+            contentType: "application/json",
+            url: `/flights/updateflight/${id}`,
+            dataType: "json",
+            type: 'POST',
+            data: JSON.stringify({ id, status }),
+
+        }).done(res => {
+            location.reload();
+        })
+        .fail(err => {
+            $("#errorMessage").empty();
+            const msg = err.responseJSON.message;
+            $("#errorMessage").append(error(msg));
+        });
+});

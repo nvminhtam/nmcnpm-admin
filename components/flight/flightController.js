@@ -139,5 +139,65 @@ module.exports = {
         } catch (err) {
             console.log(err.message);
         }
-    }
+    },
+    updateFlightPage: async(req, res) => {
+        try {
+            const flightId = req.params.flightId;
+            const flight = await flightService.findFlightById(flightId);
+            const departureAirport = await flightService.findAirportById(flight.departure_airport_id);
+            const arrivalAirport = await flightService.findAirportById(flight.arrival_airport_id);
+            const extendFlightList = await flightService.findExtendFlightById(flightId);
+            var transit;
+            if (extendFlightList.length == 1) {
+                transit = 'Direct';
+            }
+            if (extendFlightList.length == 2) {
+                transit = '1 transit';
+            }
+            if (extendFlightList.length > 2) {
+                transit = extendFlightList.length - 1 + ' transits';
+            }
+            var extendFlight = new Array();
+            for (let i = 0; i < extendFlightList.length; i++) {
+                extendFlight[i] = {
+                    id: extendFlightList[i].id,
+                    plane: extendFlightList[i]['extend_flights.plane.aircraft_number'],
+                    departure_airport: extendFlightList[i]['extend_flights.departure_airport.symbol_code'],
+                    departure_airport_name: extendFlightList[i]['extend_flights.departure_airport.airport_name'],
+                    departure_city: extendFlightList[i]['extend_flights.departure_airport.city'],
+                    departure_time: extendFlightList[i]['extend_flights.departure_time'],
+                    arrival_airport: extendFlightList[i]['extend_flights.arrival_airport.symbol_code'],
+                    arrival_airport_name: extendFlightList[i]['extend_flights.arrival_airport.airport_name'],
+                    arrival_city: extendFlightList[i]['extend_flights.arrival_airport.city'],
+                    arrival_time: extendFlightList[i]['extend_flights.arrival_time'],
+                }
+            }
+            const seatClassList = await flightService.findSeatClassById(flightId);
+            var seatClass = new Array();
+            for (let i = 0; i < seatClassList.length; i++) {
+                seatClass[i] = {
+                    name: seatClassList[i]['flight_has_seat_classes.seat_class.name'],
+                    price: seatClassList[i]['flight_has_seat_classes.price'],
+                    totalSeatCount: seatClassList[i]['flight_has_seat_classes.total_seat_count'],
+                    bookedSeatCount: seatClassList[i]['flight_has_seat_classes.booked_seat_count'],
+                }
+            }
+            console.log(seatClass);
+            res.render('flight/updateflight', { title: 'Update Flight', flight, departureAirport, arrivalAirport, extendFlight, transit, seatClass, scripts: ['flight.js'] });
+        } catch (err) {
+            console.log(err.message);
+        }
+    },
+    updateFlightForm: async(req, res) => {
+        try {
+            //get request params
+            const { id, status } = req.body;
+
+            await flightService.updateStatus(id, status);
+            res.status(201).send({ message: "Updated successfully!" });
+        } catch (err) {
+            console.log(err)
+            res.status(500).send({ message: "Failed to update status!" });
+        }
+    },
 }

@@ -185,4 +185,11 @@ module.exports = {
             })
         }
     },
+    updateStatus: (id, status) => models.flight.update({
+        status: status
+    }, {
+        where: {
+            id: id
+        }
+    })
 }
