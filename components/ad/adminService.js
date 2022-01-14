@@ -45,6 +45,10 @@ module.exports = {
         if (checkEmail) {
             throw new Error('Email is already taken!');
         }
+        const checkTelephone = await models.admin.findOne({ where: { telephone: telephone }, raw: true })
+        if (checkTelephone) {
+            throw new Error('Telephone is already taken!');
+        }
         const hashPassword = await bcrypt.hash(password, 10);
         return await models.admin.create({
             last_name: lastName,
@@ -73,6 +77,18 @@ module.exports = {
         })
         if (checkEmail) {
             throw new Error('Email is already taken!');
+        }
+        const checkTelephone = await models.admin.findOne({
+            where: {
+                telephone: telephone,
+                id: {
+                    [Op.not]: id
+                }
+            },
+            raw: true
+        })
+        if (checkTelephone) {
+            throw new Error('Telephone is already taken!');
         }
         return models.admin.update({
             last_name: lastName,
