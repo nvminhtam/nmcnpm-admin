@@ -6,10 +6,10 @@ module.exports = {
             //get request params and url
             const page = (!isNaN(req.query.page) && req.query.page > 0) ? Number(req.query.page) : 1;
             const url = req.url;
-
+            const flightCount = await flightService.countFlight(page - 1);
             //get flight list and page count
             const flightList = await flightService.flightList(page - 1);
-            const maxPage = Math.floor((flightList.count - 1) / 5) + 1;
+            const maxPage = Math.floor((flightCount.count - 1) / 5) + 1;
             var flights = new Array();
             for (let i = 0; i < flightList.length; i++) {
                 const departureAirport = await flightService.findAirportById(flightList[i].departure_airport_id);
@@ -107,9 +107,35 @@ module.exports = {
             var { seatClassCount, seatClass } = req.body;
             var seatClassList = await flightService.seatClassList();
             for (let i = 0; i < seatClass.length; i++) {
-                seatClassList = await flightService.removeSeatClassOutOfList(seatClassList, parseInt(seatClass[i].seatClassId));
+                seatClassList = await flightService.removeSeatClassOutOfList(seatClassList, seatClass[i].seatClassId);
             }
             res.status(200).send({ title: 'Add Flight', seatClassList, scripts: ['flight.js'] });
+        } catch (err) {
+            console.log(err.message);
+        }
+    },
+    addFlightForm: async(req, res) => {
+        try {
+            const { extendFlight, seatClass } = req.body;
+            console.log(req.body);
+            var totalSeatCount = 0;
+            for (let i = 0; i < seatClass.length; i++) {
+                totalSeatCount += seatClass[i].totalCount;
+            }
+            const flightData = {
+                departure_airport_id: extendFlight[0].departureAirport,
+                arrival_airport_id: extendFlight[extendFlight.length - 1].arrivalAirport,
+                departure_time: extendFlight[0].departureTime,
+                arrival_time: extendFlight[extendFlight.length - 1].arrivalTime,
+                status: "On Time",
+                total_seat_count: totalSeatCount,
+                booked_seat_count: 0,
+            }
+            const flight = await flightService.addFlight(flightData);
+            //console.log(flight);
+            await flightService.addExtendFlight(flight.id, extendFlight);
+            await flightService.addFlightHasSeatClass(flight.id, seatClass);
+            res.status(200).send({ message: "OK" });
         } catch (err) {
             console.log(err.message);
         }

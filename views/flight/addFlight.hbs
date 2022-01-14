@@ -60,7 +60,7 @@
     </div>
     <div class="main-section">
         <div class="container">
-            <form id="add-flight">
+            <form id="add-extend-flight">
                 <div id="list-segment">
                     <div id="segment-0">
                         <div class="card p-2">
@@ -172,19 +172,20 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="totalCount">Total Count</label>
-                                    <input id="totalCount" type="number" class="form-control" value="1" min="1" name="totalCount"/>
+                                    <input id="totalCount" type="number" class="form-control" value="1" min="1"
+                                        name="totalCount" />
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="price">Price</label>
-                                    <input id="price" type="number" class="form-control" value="100000" min="0" name="price"/>
+                                    <input id="price" type="number" class="form-control" value="100000" min="0"
+                                        name="price" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="row mx-auto d-flex align-items-center justify-content-center">
                     <div class="col-4">
                         <div class="form-group">
@@ -195,7 +196,16 @@
                     </div>
                 </div>
             </form>
+            <div class="row">
+                <div class="text-end mb-5">
+                    <button id="add-flight" class="btn btn-success">Create</button>
+                </div>
+            </div>
+            <div class="row">
+                <div id="errorMessage"></div>
+                <div id="successfulMessage"></div>
+            </div>
         </div>
     </div>
 </div>
-<script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+{{!-- <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script> --}}

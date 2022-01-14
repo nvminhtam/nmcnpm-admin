@@ -6,6 +6,13 @@ const error = msg => `<div class="alert alert-danger d-flex align-items-center" 
                                 ${msg}
                             </div>
                         </div>`
+const success = () => `<div class="alert alert-success d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Success:">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            <div>
+                                Add flight successfully!
+                            </div>
+                        </div>`
 $.validator.prototype.checkForm = function() {
     //overriden in a specific page
     this.prepareForm();
@@ -32,6 +39,7 @@ const config = {
 }
 var eFlightcount = 0;
 var sClassCount = 0;
+
 jQuery(document).ready(function($) {
     $(".clickable-row").click(function() {
         window.location = $(this).data("href");
@@ -118,7 +126,7 @@ const validateSeatClass = {
     },
 };
 $("#add-extend-flight-btn").click(function() {
-    $('#add-flight').validate({
+    $('#add-extend-flight').validate({
         ...validateFlight,
         submitHandler: function(form, event) {
             event.preventDefault();
@@ -134,6 +142,46 @@ $("#add-seat-class-btn").click(function() {
             sendSeatClass();
         }
     });
+})
+$("#add-flight").click(function() {
+    var checkAddFlightError = true;
+    const extendFlightData = getFlightSegmentData();
+    for (let i = 0; i < extendFlightData.extendFlight.length; i++) {
+        if (extendFlightData.extendFlight[i].departureAirport == "default" || extendFlightData.extendFlight[i].arrivalAirport == "default" ||
+            extendFlightData.extendFlight[i].departureTime == "" || extendFlightData.extendFlight[i].arrivalTime == "" || extendFlightData.extendFlight[i].plane == "") {
+            const msg = "Please fill in all information of flight segment!";
+            $("#errorMessage").append(error(msg));
+            checkAddFlightError = false;
+        }
+    }
+    const seatClassData = getSeatClassData();
+    for (let i = 0; i < seatClassData.seatClass.length; i++) {
+        if (seatClassData.seatClass[i].totalCount <= 0 || seatClassData.seatClass[i].price < 0) {
+            const msg = "Total count must be > 0 and Price must be >=0!";
+            $("#errorMessage").append(error(msg));
+            checkAddFlightError = false;
+        }
+    }
+    const data = {
+        extendFlight: extendFlightData.extendFlight,
+        seatClass: seatClassData.seatClass,
+    }
+    if (checkAddFlightError) {
+        $("#errorMessage").empty();
+        $.ajax({
+            contentType: "application/json",
+            url: '/flights/addflight',
+            dataType: "json",
+            type: 'POST', // http method
+            data: JSON.stringify(data),
+        }).done((res) => {
+            $("#errorMessage").empty();
+            $("#successfulMessage").append(success);
+            setTimeout(() => {
+                window.location.href = '/flights';
+            }, 2000);
+        });
+    }
 })
 window.onclick = e => {
     if (e.target.id == "removeExtendFlight") {
@@ -154,7 +202,7 @@ window.onclick = e => {
     }
 };
 
-function sendFlightSegment() {
+function getFlightSegmentData() {
     const extendFlightCount = document.getElementById("extendFlightCount").value;
     const departureAirport = document.getElementById("departureAirport").value;
     const arrivalAirport = document.getElementById("arrivalAirport").value;
@@ -163,11 +211,11 @@ function sendFlightSegment() {
     const plane = document.getElementById('plane').value;
     var extendFlight = new Array();
     extendFlight[0] = {
-        departureAirport: departureAirport,
-        arrivalAirport: arrivalAirport,
+        departureAirport: parseInt(departureAirport),
+        arrivalAirport: parseInt(arrivalAirport),
         departureTime: departureTime,
         arrivalTime: arrivalTime,
-        plane: plane,
+        plane: parseInt(plane),
     }
     for (let i = 0; i < extendFlightCount; i++) {
         const index = i + 1;
@@ -177,17 +225,23 @@ function sendFlightSegment() {
         const arrivalTime = document.getElementById('arrivalTime' + index).value;
         const plane = document.getElementById('plane' + index).value;
         extendFlight[index] = {
-            departureAirport: departureAirport,
-            arrivalAirport: arrivalAirport,
+            departureAirport: parseInt(departureAirport),
+            arrivalAirport: parseInt(arrivalAirport),
             departureTime: departureTime,
             arrivalTime: arrivalTime,
-            plane: plane,
+            plane: parseInt(plane),
         }
     }
     const data = {
         extendFlightCount: parseInt(extendFlightCount, 10),
         extendFlight: extendFlight
     }
+    console.log(data);
+    return data;
+}
+
+function sendFlightSegment() {
+    const data = getFlightSegmentData();
     $.ajax({
         contentType: "application/json",
         url: '/flights/addextendflight',
@@ -195,21 +249,22 @@ function sendFlightSegment() {
         type: 'POST', // http method
         data: JSON.stringify(data),
         success: function(data) {
+            $("#errorMessage").empty();
             addFlightSegment(data);
         }
     });
 }
 
-function sendSeatClass() {
+function getSeatClassData() {
     const seatClassCount = document.getElementById("seatClassCount").value;
     const seatClassId = document.getElementById("seatClassId").value;
     const totalCount = document.getElementById("totalCount").value;
     const price = document.getElementById("price").value;
     var seatClass = new Array();
     seatClass[0] = {
-        seatClassId: seatClassId,
-        totalCount: totalCount,
-        price: price,
+        seatClassId: parseInt(seatClassId),
+        totalCount: parseInt(totalCount),
+        price: parseInt(price),
     }
     for (let i = 0; i < seatClassCount; i++) {
         const index = i + 1;
@@ -217,15 +272,20 @@ function sendSeatClass() {
         const totalCount = document.getElementById("totalCount" + index).value;
         const price = document.getElementById("price" + index).value;
         seatClass[index] = {
-            seatClassId: seatClassId,
-            totalCount: totalCount,
-            price: price,
+            seatClassId: parseInt(seatClassId),
+            totalCount: parseInt(totalCount),
+            price: parseInt(price),
         }
     }
     const data = {
-        seatClassCount: parseInt(seatClassCount, 10),
+        seatClassCount: parseInt(seatClassCount),
         seatClass: seatClass
     }
+    return data;
+}
+
+function sendSeatClass() {
+    const data = getSeatClassData();
     $.ajax({
         contentType: "application/json",
         url: '/flights/addseatclass',
@@ -234,22 +294,23 @@ function sendSeatClass() {
         data: JSON.stringify(data),
         success: function(data) {
             if (data.seatClassList.length > 0) {
+                $("#errorMessage").empty();
                 addSeatClass(data);
             }
         }
     });
 }
 
-function render(filename, data) {
-    var fr = new FileReader();
-    fr.onload = function() {
-        document.getElementById('output')
-            .textContent = fr.result;
-    }
-    var template = Handlebars.compile(readSingleFile());
-    var output = template(data);
-    return output;
-}
+// function render(filename, data) {
+//     var fr = new FileReader();
+//     fr.onload = function() {
+//         document.getElementById('output')
+//             .textContent = fr.result;
+//     }
+//     var template = Handlebars.compile(readSingleFile());
+//     var output = template(data);
+//     return output;
+// }
 
 function addFlightSegment(data) {
     const { arrivalAirportList, currentDepartureAirport, planeList } = data;
@@ -266,7 +327,8 @@ function addFlightSegment(data) {
             <div class="col-6">
                 <div class="form-group">
                     <label for="departureAirport${eFlightcount}">Departure Airport</label>
-                    <input id="departureAirport${eFlightcount}" class="form-control" name="departureAirport" value="${currentDepartureAirport.airport_name} (${currentDepartureAirport.symbol_code}) - ${currentDepartureAirport.city}" disable>
+                    <input id="departureAirport${eFlightcount}" class="form-control" name="departureAirport" value="${currentDepartureAirport.id}" hidden>
+                    <input class="form-control" name="departureAirport" value="${currentDepartureAirport.airport_name} (${currentDepartureAirport.symbol_code}) - ${currentDepartureAirport.city}" disable>
                     </input>
                 </div>
             </div>

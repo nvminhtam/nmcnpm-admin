@@ -55,8 +55,27 @@
     <div class="main-section">
         <div class="container">
             <div id="errorMessage"></div>
-            <div class="card mx-auto">
-                <div class="mt-3 table-responsive">
+            <div class="card">
+                <div class="m-3">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-8">
+                            <form class="search-form search-form--light d-flex" action="/flights/search" method="get">
+                                <input type="text"
+                                    class="form-control search"
+                                    placeholder="Search"
+                                    name="keyword"
+                                    autocomplete="off"
+                                    value="{{search}}">
+                                <button class="btn"
+                                        type="submit"
+                                        role="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
                     <table class="table mb-0 table-striped">
                         <thead>
                             <tr>
