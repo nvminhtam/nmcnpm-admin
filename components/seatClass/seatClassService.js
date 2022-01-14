@@ -6,7 +6,10 @@ module.exports = {
     list: (page = 0, itemsPerPage = 6) => models.seat_class.findAndCountAll({
         raw: true,
         offset: itemsPerPage * page,
-        limit: itemsPerPage
+        limit: itemsPerPage,
+        order: [
+            ['id', 'DESC']
+        ]
     }),
     search: (keyword, page = 0, itemsPerPage = 6) => models.seat_class.findAndCountAll({
         where: {

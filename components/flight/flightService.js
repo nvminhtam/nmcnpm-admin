@@ -109,7 +109,10 @@ module.exports = {
     flightList: (page = 0, itemsPerPage = 5) => models.flight.findAll({
         raw: true,
         offset: itemsPerPage * page,
-        limit: itemsPerPage
+        limit: itemsPerPage,
+        order: [
+            ['id', 'DESC']
+        ]
     }),
     findFlightById: (flightId) => models.flight.findOne({
         raw: true,

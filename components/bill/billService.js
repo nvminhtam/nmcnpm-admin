@@ -20,7 +20,10 @@ const listConfig = {
 module.exports = {
     list: (page = 0, itemsPerPage = 8) => models.bill.findAndCountAll({
         offset: itemsPerPage * page,
-        limit: itemsPerPage
+        limit: itemsPerPage,
+        order: [
+            ['id', 'DESC']
+        ]
     }),
     search: (status, keyword, page = 0, itemsPerPage = 8) => models.bill.findAndCountAll({
         where: {

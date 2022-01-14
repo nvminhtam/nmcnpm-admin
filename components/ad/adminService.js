@@ -7,7 +7,10 @@ module.exports = {
     list: (page = 0, itemsPerPage = 5) => models.admin.findAndCountAll({
         raw: true,
         offset: itemsPerPage * page,
-        limit: itemsPerPage
+        limit: itemsPerPage,
+        order: [
+            ['id', 'DESC']
+        ]
     }),
     search: (keyword, page = 0, itemsPerPage = 5) => models.admin.findAndCountAll({
         where: {
