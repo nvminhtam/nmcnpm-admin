@@ -59,7 +59,7 @@
     <div class="main-section">
         <div class="container">
             <div id="errorMessage"></div>
-            <div class="card mx-auto">
+            <div class="card mx-auto" style="width: 80%;">
                 <div class="m-3">
                     <div class="row">
                         <div class="col-md-4 offset-md-8">
@@ -83,7 +83,6 @@
                     <table class="table mb-0 table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 10%;">ID</th>
                                 <th style="width: 45%;">Aircraft Number</th>
                                 <th style="width: 35%;">Airline Name</th>
                                 <th class="text-center" style="width: 10%;"></th>
@@ -92,7 +91,6 @@
                         <tbody class="list">
                             {{#each planes}}
                             <tr>
-                                <td class="text-center">{{id}}</td>
                                 <td>{{aircraft_number}}</td>
                                 <td>{{airline_name}}</td>
                                 <td class="text-center">

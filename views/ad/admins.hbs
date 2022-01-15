@@ -59,7 +59,7 @@
     <div class="main-section">
         <div class="container">
             <div id="errorMessage"></div>
-            <div class="card">
+            <div class="card mx-auto"  style="width: 80%;">
                 <div class="m-3">
                     <div class="row">
                         <div class="col-md-4 offset-md-8">
@@ -83,7 +83,7 @@
                     <table class="table mb-0 table-striped">
                         <thead>
                             <tr>
-                                <th style="width: 18px;"></th>
+                                
                                 <th style="min-width: 200px;">Name</th>
                                 <th style="min-width: 150px;">Username</th>
                                 <th>Email</th>
@@ -94,15 +94,6 @@
                         <tbody class="list" id="products">
                             {{#each admins}}
                             <tr>
-                                <td class="text-center">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox"
-                                            class="custom-control-input js-check-selected-row"
-                                            id="customCheck_{{id}}">
-                                        <label class="custom-control-label"
-                                            for="customCheck_{{id}}"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
                                 <td>
                                     <a href="/admins/{{id}}">{{last_name}} {{first_name}}</a>
                                 </td>
