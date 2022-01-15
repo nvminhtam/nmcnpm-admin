@@ -51,6 +51,7 @@ if (path.match('/admins/addadmin') || path.match('/admins/addAdmin')) {
             },
             "telephone": {
                 maxlength: 10,
+                required: true,
             }
         },
         messages: {
@@ -74,7 +75,8 @@ if (path.match('/admins/addadmin') || path.match('/admins/addAdmin')) {
                 email: "You have entered an invalid email address"
             },
             "telephone": {
-                maxlength: "Your telephone number must be at most 10 characters long"
+                maxlength: "Your telephone number must be at most 10 characters long",
+                required: "Please provide an telephone",
             }
         },
         errorPlacement: errorPlacement,
@@ -130,7 +132,8 @@ if (path.match('/admins/updateadmin/') || path.match('/profile/editaccount')) {
                 email: true,
             },
             "telephone": {
-                maxlength: 10
+                maxlength: 10,
+                required: true,
             }
         },
         messages: {
@@ -142,7 +145,8 @@ if (path.match('/admins/updateadmin/') || path.match('/profile/editaccount')) {
                 email: "You have entered an invalid email address"
             },
             "telephone": {
-                maxlength: "Your telephone number must be at most 10 characters long"
+                maxlength: "Your telephone number must be at most 10 characters long",
+                required: "Please enter a telephone",
             }
         },
         errorPlacement: errorPlacement,
